@@ -1,7 +1,5 @@
 package com.example.backend.pet;
 
-import com.example.backend.entities.Pet;
-import com.example.backend.entities.dtos.PetDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

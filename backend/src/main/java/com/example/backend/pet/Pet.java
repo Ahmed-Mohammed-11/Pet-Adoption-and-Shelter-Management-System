@@ -1,4 +1,4 @@
-package com.example.backend.entities;
+package com.example.backend.pet;
 
 public record Pet(int id,
                   String name,

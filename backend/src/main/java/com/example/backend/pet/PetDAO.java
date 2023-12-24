@@ -1,6 +1,5 @@
 package com.example.backend.pet;
 
-import com.example.backend.entities.Pet;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
