@@ -18,7 +18,7 @@ public class PetDAO {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        return jdbcTemplate.update(sql, pet.name(), pet.species(), pet.age(), pet.gender(), pet.description(), pet.breed(), pet.house_training(), pet.behavior());
+        return jdbcTemplate.update(sql, pet.name(), pet.species(), pet.age(), pet.gender(), pet.description(), pet.breed(), pet.house_training(), "Playful");
     }
 
     public List<Pet> selectPet() {
