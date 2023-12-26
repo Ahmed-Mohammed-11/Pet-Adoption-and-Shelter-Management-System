@@ -1,11 +1,16 @@
-package com.example.backend.Model;
+package com.example.backend.Model.users;
 
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@Setter
 @SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class StaffMember extends User {
     private String shelterName;
     private String staffRole;
 }
+
+

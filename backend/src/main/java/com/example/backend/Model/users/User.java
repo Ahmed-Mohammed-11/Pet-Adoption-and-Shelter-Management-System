@@ -1,4 +1,4 @@
-package com.example.backend.Model;
+package com.example.backend.Model.users;
 
 import com.example.backend.Enums.Role;
 import jakarta.persistence.EnumType;
@@ -19,9 +19,9 @@ import java.util.List;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class User implements UserDetails {
+public class User implements UserDetails {
 
-    protected String userId;
+    protected int userId;
     protected String userName;
     protected String email;
     protected String password;

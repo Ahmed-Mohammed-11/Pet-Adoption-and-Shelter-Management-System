@@ -30,4 +30,11 @@ public class RegistrationController {
         registrationService.registerStaff(staffDTO);
         return ResponseEntity.ok("User registered successfully");
     }
+
+    @PostMapping(Endpoints.REGISTER_MANAGER)
+    public ResponseEntity<String> registerManager(@RequestBody @Valid UserDTO userDTO){
+        registrationService.registerManager(userDTO);
+        return ResponseEntity.ok("User registered successfully");
+    }
+
 }

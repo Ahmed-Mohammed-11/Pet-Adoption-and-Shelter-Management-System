@@ -1,11 +1,10 @@
 package com.example.backend.DAO;
 
-import com.example.backend.Model.User;
+import com.example.backend.Model.users.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -32,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByUserName(String userName) {
+    public Optional<? extends User> findByUserName(String userName) {
         String sql = "SELECT * FROM pet_adoption.user WHERE userName = ?";
         return jdbcTemplate
                 .query(sql, new BeanPropertyRowMapper<>(User.class) , userName)
@@ -81,24 +80,25 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void update(User user) {
+    public int update(User user) {
         String sql = "UPDATE pet_adoption.user SET userName = ?, password = ?, phone = ?, " +
                 "firstName = ?, lastName = ?, email = ?, role = ? WHERE user_id = ?";
-        jdbcTemplate.update(
+
+        return jdbcTemplate.update(
                 sql, user.getUsername(), user.getPassword(), user.getPhone(),
                 user.getFirstName(), user.getLastName(), user.getEmail(),
                 user.getRole().name(), user.getUserId());
     }
 
     @Override
-    public void deleteById(String id) {
+    public int deleteById(String id) {
         String sql = "DELETE FROM pet_adoption.user WHERE user_id = ?";
-        jdbcTemplate.update(sql, id);
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public void delete(User user) {
+    public int delete(User user) {
         String sql = "DELETE FROM pet_adoption.user WHERE user_id = ?";
-        jdbcTemplate.update(sql, user.getUserId());
+        return jdbcTemplate.update(sql, user.getUserId());
     }
 }

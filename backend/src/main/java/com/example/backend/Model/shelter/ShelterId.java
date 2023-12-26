@@ -1,4 +1,4 @@
-package com.example.backend.Model;
+package com.example.backend.Model.shelter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Shelter {
+public class ShelterId {
     private int shelterId;
-    private String name;
-    private String location;
-    private String phone;
-    private String email;
+    private int shelterMgrId;
 }

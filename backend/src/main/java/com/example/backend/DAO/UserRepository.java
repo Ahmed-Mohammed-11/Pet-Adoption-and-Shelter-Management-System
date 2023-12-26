@@ -1,12 +1,12 @@
 package com.example.backend.DAO;
 
-import com.example.backend.Model.User;
+import com.example.backend.Model.users.User;
 
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, String> {
-    Optional<User> findByUserName(String userName);
-    Optional<User> findByEmail(String email);
+    Optional<? extends User> findByUserName(String userName);
+    Optional<? extends User> findByEmail(String email);
 
 
 }
