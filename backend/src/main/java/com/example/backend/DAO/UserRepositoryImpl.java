@@ -2,18 +2,25 @@ package com.example.backend.DAO;
 
 import com.example.backend.Model.User;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Primary
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    protected final JdbcTemplate jdbcTemplate;
 
     @Override
     public Optional<User> findById(String id) {
@@ -34,6 +41,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM pet_adoption.user WHERE email = ?";
+        return jdbcTemplate
+                .query(sql, new BeanPropertyRowMapper<>(User.class), email)
+                .stream()
+                .findFirst();
+    }
+
+
+    @Override
     public List<User> findAll() {
         String sql = "SELECT * FROM pet_adoption.user";
         return jdbcTemplate
@@ -41,14 +58,26 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void save(User user) {
+    public String save(User user) {
         String sql = "INSERT INTO pet_adoption.user " +
-                "(user_id, userName, password, phone, firstName, lastName, email, role) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                user.getUserId(), user.getUsername(), user.getPassword(),
-                user.getPhone(), user.getFirstName(), user.getLastName(),
-                user.getEmail(), user.getRole().name());
+                "(userName, password, phone, firstName, lastName, email, role) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, user.getUsername());
+            pst.setString(2, user.getPassword());
+            pst.setString(3, user.getPhone());
+            pst.setString(4, user.getFirstName());
+            pst.setString(5, user.getLastName());
+            pst.setString(6, user.getEmail());
+            pst.setString(7, user.getRole().name());
+            return pst;
+        }, keyHolder);
+
+        return keyHolder.getKey().toString();
     }
 
     @Override
