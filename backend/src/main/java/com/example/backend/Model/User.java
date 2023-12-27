@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    String userId;
+    int userId;
     String userName;
     String password;
     String phone;

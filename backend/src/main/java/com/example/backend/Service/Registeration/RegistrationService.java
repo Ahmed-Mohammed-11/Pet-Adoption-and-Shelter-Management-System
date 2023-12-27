@@ -5,7 +5,6 @@ import com.example.backend.DTO.Request.RegistrationDTO;
 import com.example.backend.Enums.Role;
 import com.example.backend.Model.User;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
