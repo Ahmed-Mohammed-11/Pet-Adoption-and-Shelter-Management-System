@@ -28,7 +28,7 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
     @Override
     public RecordId save(AdoptionRecord adoptionRecord) {
         String sql = "INSERT INTO pet_adoption.adoption_record " +
-                "(pet_id, adopter_user_id, status, acceptance_date) " +
+                "(pet_id, adopter_id, status, acceptance_date) " +
                 "VALUES (?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -50,7 +50,7 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
 
     @Override
     public Optional<AdoptionRecord> findById(RecordId recordId) {
-        String sql = "SELECT * FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_user_id = ?";
+        String sql = "SELECT * FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_id = ?";
         return jdbcTemplate
                 .query(sql, new BeanPropertyRowMapper<>(AdoptionRecord.class) , recordId.getPetId(), recordId.getAdopterUserId())
                 .stream()
@@ -66,7 +66,7 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
 
     @Override
     public void update(AdoptionRecord adoptionRecord) {
-        String sql = "UPDATE pet_adoption.adoption_record SET adopter_user_id = ?, status = ?, acceptance_date = ? WHERE pet_id = ?";
+        String sql = "UPDATE pet_adoption.adoption_record SET adopter_id = ?, status = ?, acceptance_date = ? WHERE pet_id = ?";
         jdbcTemplate.update(
                 sql, adoptionRecord.getRecordId().getAdopterUserId(), adoptionRecord.getStatus(),
                 adoptionRecord.getAcceptanceDate(), adoptionRecord.getRecordId().getPetId());
@@ -74,23 +74,23 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
 
     @Override
     public void deleteById(RecordId recordId) {
-        String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_user_id = ?";
+        String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_id = ?";
         jdbcTemplate.update(sql, recordId.getPetId(), recordId.getAdopterUserId());
     }
 
     @Override
     public void delete(AdoptionRecord adoptionRecord) {
-        String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_user_id = ?";
+        String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ? AND adopter_id = ?";
         jdbcTemplate.update(sql, adoptionRecord.getRecordId().getPetId(), adoptionRecord.getRecordId().getAdopterUserId());
     }
 
     public List<NotificationDTO> findNotPendingRecords(Integer adopterUserId, int pageNumber) {
         int offset = (pageNumber - 1) * 50;
 
-        String sql = "SELECT ar.status, p.name as petName, ar.acceptanceDate " +
+        String sql = "SELECT ar.status, p.name as petName, ar.acceptance_date " +
                 "FROM pet_adoption.adoption_record ar " +
                 "JOIN pet_adoption.pet p ON ar.pet_id = p.pet_id " +
-                "WHERE ar.adopter_user_id = ? AND ar.status != 'PENDING' " +
+                "WHERE ar.adopter_id = ? AND ar.status != 'PENDING' " +
                 "LIMIT ? OFFSET";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NotificationDTO.class), adopterUserId, 50, offset);

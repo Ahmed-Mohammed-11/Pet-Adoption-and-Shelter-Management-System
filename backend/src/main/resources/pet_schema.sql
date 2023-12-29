@@ -35,15 +35,15 @@ ENGINE = InnoDB;
 -- Table `pet_adoption`.`adoption_record`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pet_adoption`.`adoption_record` (
-  `adopter_user_id` INT NOT NULL,
+  `adopter_id` INT NOT NULL,
   `pet_id` INT NOT NULL,
-  `state` ENUM("PENDING", "ACCEPTED", "REJECTED") NOT NULL,
+  `status` ENUM("PENDING", "ACCEPTED", "REJECTED") NOT NULL,
   `acceptance_date` DATETIME NULL,
-  INDEX `fk_adoption_record_adopter1_idx` (`adopter_user_id` ASC) VISIBLE,
+  INDEX `fk_adoption_record_adopter1_idx` (`adopter_id` ASC) VISIBLE,
   INDEX `fk_adoption_record_pet1_idx` (`pet_id` ASC) VISIBLE,
-  PRIMARY KEY (`adopter_user_id`, `pet_id`),
+  PRIMARY KEY (`adopter_id`, `pet_id`),
   CONSTRAINT `fk_adoption_record_adopter1`
-    FOREIGN KEY (`adopter_user_id`)
+    FOREIGN KEY (`adopter_id`)
     REFERENCES `pet_adoption`.`adopter` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
