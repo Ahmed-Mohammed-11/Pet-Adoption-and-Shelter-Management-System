@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class UserResponseDTO {
     protected int userId;
-    protected String userName;
+    protected String username;
     protected String email;
     protected String phone;
     protected String firstName;

@@ -21,7 +21,7 @@ public class UserService {
         User user = userRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
         UserResponseDTO userResponseDTO = UserResponseDTO.builder()
                 .userId(user.getUserId())
-                .userName(user.getUsername())
+                .username(user.getUsername())
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .firstName(user.getFirstName())

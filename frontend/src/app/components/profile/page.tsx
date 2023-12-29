@@ -1,7 +1,7 @@
 'use client';
 import {Box} from "@mui/system";
 import {Button, IconButton, Paper, TextField, Typography} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import SideBar from "@/app/components/side-bar/side-bar";
@@ -20,13 +20,14 @@ function Profile(props: Props) {
         email: true,
         password: true
     });
+
     const [errors, setErrors] = useState({
         username: "",
         email: "",
         password: ""
     });
 
-    //make this form data coming from props
+    // make this form data coming from props
     const [formData, setFormData] = useState({
         firstName: props.userDetail.firstName,
         lastName: props.userDetail.lastName,
@@ -36,6 +37,7 @@ function Profile(props: Props) {
         password: props.userDetail.password,
         role: props.userDetail.role,
     });
+
 
     // Step 2: Implement Material-UI components for each field
     const [editMode, setEditMode] = useState({
@@ -68,7 +70,22 @@ function Profile(props: Props) {
         console.log(errors);
     };
 
-    console.log("ana gwa" + props.userDetail.firstName);
+    useEffect(() => {
+        setFormData({
+            firstName: props.userDetail.firstName,
+            lastName: props.userDetail.lastName,
+            username: props.userDetail.username,
+            email: props.userDetail.email,
+            phone: props.userDetail.phone,
+            password: props.userDetail.password,
+            role: props.userDetail.role,
+        })
+    }, [props.userDetail]);
+
+    useEffect(() => {
+        console.log("from data use effect " + formData.firstName);
+    }, [formData]);
+
 
     return (
 
@@ -87,7 +104,7 @@ function Profile(props: Props) {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    value={props.userDetail.firstName}
+                    value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                     disabled={!editMode.firstName}
                     onClick={() => setEditMode({...editMode, firstName: true})}

@@ -20,28 +20,31 @@ function Page() {
 
     const [firstRender, setFirstRender] = useState(true);
 
-    // useEffect(() => {
-    //     if(!firstRender) return;
-    //     const fetchResponse = async () => {
-    //         // the two controllers as one with post request
-    //         let response = await getRequestController.sendGetRequest(GET_USER_BACKEND_ENDPOINT);
-    //
-    //         // toJSON util to convert ReadableStream to JSON
-    //         let jsonResponse = await toJSON(response.body!);
-    //         let responseStat = response.status;
-    //
-    //         setUserDetail({
-    //             ...jsonResponse
-    //         })
-    //     }
-    //
-    //     fetchResponse();
-    //     setFirstRender(false);
-    //
-    //     console.log("responseee " + userDetail.firstName)
-    //     // console.log("omar ba2a: " + userDetail.firstName)
-    // }, [firstRender])
+    useEffect(() => {
+        if(!firstRender) return;
+        const fetchResponse = async () => {
+            // the two controllers as one with post request
+            let response = await getRequestController.sendGetRequest(GET_USER_BACKEND_ENDPOINT);
 
+            // toJSON util to convert ReadableStream to JSON
+            let jsonResponse = await toJSON(response.body!);
+            let responseStat = response.status;
+
+            setUserDetail({
+                ...jsonResponse
+            })
+        }
+
+        fetchResponse();
+        setFirstRender(false);
+
+        // console.log("responseee " + userDetail.firstName)
+        // console.log("omar ba2a: " + userDetail.firstName)
+    }, [firstRender])
+
+    useEffect(() => {
+        console.log("responseee " + userDetail.firstName);
+    }, [userDetail]);
 
 
     return (

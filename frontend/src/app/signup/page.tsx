@@ -1,6 +1,6 @@
 'use client';
 import styles from './page.module.css'
-import {Button, Link, TextField} from "@mui/material";
+import {Button, FormControlLabel, Link, Radio, RadioGroup, TextField} from "@mui/material";
 import {Box} from "@mui/system";
 import {useRef, useState} from "react";
 import signupController from "@/app/services/signupController";
@@ -23,11 +23,15 @@ function Page() {
         email: true,
         password: true
     });
+
     const [errors, setErrors] = useState({
         username: "",
         email: "",
         password: ""
     });
+
+    const [selectedRole, setSelectedRole] = useState("adopter");
+
 
     const router = useRouter();
 
@@ -37,7 +41,7 @@ function Page() {
             username: usernameRef.current!.value,
             email: emailRef.current!.value,
             password: passwordRef.current!.value,
-            role: "user",
+            role: selectedRole,
             phone: "",
             fullName: "",
         }
@@ -51,13 +55,18 @@ function Page() {
         isUserValid.username && isUserValid.email && isUserValid.password && sendInfoToServer(user);
     }
 
+    const handleRoleChange = (event: any) => {
+        setSelectedRole(event.target.value);
+    };
+
+
     async function sendInfoToServer(user: UserDTO) {
         // prepare user data to send to server
         let userDTO: UserDTO = {
             username: user.username,
             email: user.email,
             password: user.password,
-            role: "adopter",
+            role: user.role,
             phone: "0155555",
             firstName: "Omar",
             lastName: "Tammam"
@@ -69,11 +78,13 @@ function Page() {
     const fetchResponse = async (userDTO: UserDTO) => {
         let response: Response;
         if(userDTO.role == "adopter") {
-            console.log("User DTO: " + userDTO.username + " " + userDTO.email + " " + userDTO.password + " " + userDTO.role + " " + userDTO.phone + " " + userDTO.firstName + " " + userDTO.lastName);
+            console.log("Adopter request sent")
             response = await signupController.sendPostRequest(userDTO, SIGN_UP_ADOPTER_BACKEND_ENDPOINT);
         } else if (userDTO.role == "staff") {
+            console.log("Staff request sent")
             response = await signupController.sendPostRequest(userDTO, SIGN_UP_STAFF_BACKEND_ENDPOINT);
         } else if (userDTO.role == "manager") {
+            console.log("manager request sent")
             response = await signupController.sendPostRequest(userDTO, SIGN_UP_MANAGER_BACKEND_ENDPOINT);
         } else {
             throw new Error("Invalid user role");
@@ -136,6 +147,56 @@ function Page() {
                     InputProps={{style: {background: "#FFF"}}}
                 >
                 </TextField>
+                <TextField
+                    className={styles.textArea}
+                    label='phone number'
+                    placeholder='phone number'
+                    inputRef={passwordRef}
+                    required
+                    variant="filled"
+                    error={!isUserValid.password}
+                    // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
+                    InputProps={{style: {background: "#FFF"}}}
+                >
+                </TextField>
+                <TextField
+                    className={styles.textArea}
+                    label='First Name'
+                    placeholder='first name'
+                    inputRef={passwordRef}
+                    required
+                    variant="filled"
+                    error={!isUserValid.password}
+                    // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
+                    InputProps={{style: {background: "#FFF"}}}
+                >
+                </TextField>
+                <TextField
+                    className={styles.textArea}
+                    label='Last Name'
+                    placeholder='Last name'
+                    inputRef={passwordRef}
+                    required
+                    variant="filled"
+                    error={!isUserValid.password}
+                    // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
+                    InputProps={{style: {background: "#FFF"}}}
+                >
+                </TextField>
+
+
+                <RadioGroup
+                    aria-label="role"
+                    name="role"
+                    value={selectedRole}
+                    onChange={handleRoleChange}
+                    row
+                >
+                    <FormControlLabel value="adopter" control={<Radio />} label="Adopter" />
+                    <FormControlLabel value="staff" control={<Radio />} label="Staff" />
+                    <FormControlLabel value="manager" control={<Radio />} label="Manager" />
+                </RadioGroup>
+
                 <Button
                     className={styles.button}
                     variant="contained"
