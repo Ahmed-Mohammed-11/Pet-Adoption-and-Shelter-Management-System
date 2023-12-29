@@ -68,8 +68,8 @@ const lightTheme = createTheme({
 
         action: {
             active: '#526D82',
-            hover: '#526D82',
-            hoverOpacity: 0.8,
+            hover: '#A7BAC8',
+            //hoverOpacity: 0.8,
             selected: '#526D82',
             selectedOpacity: 0.8,
             disabled: '#9DB2BF',
@@ -83,7 +83,7 @@ const lightTheme = createTheme({
     },
     typography: {
         fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-        fontSize: 20,
+        fontSize: 14,
         fontWeightLight: 300,
         fontWeightRegular: 400,
         fontWeightMedium: 500,

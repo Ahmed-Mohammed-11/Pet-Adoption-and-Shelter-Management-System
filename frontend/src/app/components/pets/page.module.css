@@ -1,0 +1,22 @@
+.modalStyle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5%;
+    padding: 4vh 2vw;
+    z-index: 10;
+}
+
+.VisuallyHiddenInput {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    width: 1;
+}

@@ -1,10 +1,8 @@
 'use client';
 
 import Profile from "@/app/components/profile/page";
-import loginController from "@/app/services/loginController";
-import {GET_USER_BACKEND_ENDPOINT, SIGN_IN_BACKEND_ENDPOINT} from "@/app/constants/apiConstants";
+import {GET_USER_BACKEND_ENDPOINT} from "@/app/constants/apiConstants";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
-import GetRequestController from "@/app/services/getRequestController";
 import getRequestController from "@/app/services/getRequestController";
 import {useState} from "react";
 

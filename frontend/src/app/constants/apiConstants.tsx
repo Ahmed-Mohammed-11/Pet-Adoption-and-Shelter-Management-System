@@ -6,3 +6,4 @@ export const SIGN_IN_BACKEND_ENDPOINT = 'auth/login';
 export const SIGN_UP_ROUTE = '/signup';
 export const SIGN_IN_ROUTE = '/login';
 export const GET_USER_BACKEND_ENDPOINT = '/user';
+export const GET_SHELTERS_BACKEND_ENDPOINT = '/shelters';
