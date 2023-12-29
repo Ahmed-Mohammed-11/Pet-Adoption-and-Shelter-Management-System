@@ -1,4 +1,4 @@
-package com.example.backend.Model;
+package com.example.backend.DTO.Request;
 
 import com.example.backend.Enums.Behaviour;
 import lombok.AllArgsConstructor;
@@ -7,11 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Pet {
-    private int petId;
+@AllArgsConstructor
+@Builder
+public class PetDTO {
     private String name;
     private String species;
     private int age;
@@ -21,5 +20,4 @@ public class Pet {
     private boolean houseTraining;
     private Behaviour behaviour;
     private int shelterId;
-
 }

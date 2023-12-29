@@ -1,6 +1,7 @@
-package com.example.backend.Model.adoptionRecord;
+package com.example.backend.Model;
 
 import com.example.backend.Enums.AdoptionStatus;
+import com.example.backend.Model.adoptionRecord.RecordId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
