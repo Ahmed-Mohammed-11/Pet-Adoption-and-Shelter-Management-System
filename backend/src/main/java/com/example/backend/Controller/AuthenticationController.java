@@ -22,7 +22,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<String> login(HttpServletResponse httpServletResponse, @RequestBody AuthenticationRequestDTO authenticationRequest) {
 
-        authenticationService.authenticate(httpServletResponse, authenticationRequest.getUserName(), authenticationRequest.getPassword());
+        authenticationService.authenticate(httpServletResponse, authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         return ResponseEntity.ok("Login successful");
     }
