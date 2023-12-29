@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CrudRepository<T, ID> {
-    void save(T entity);
+    ID save(T entity);
 
     Optional<T> findById(ID id);
 
     List<T> findAll();
 
-    void update(T entity);
+    int update(T entity);
 
-    void deleteById(ID id);
+    int deleteById(ID id);
 
-    void delete(T entity);
+    int delete(T entity);
 }

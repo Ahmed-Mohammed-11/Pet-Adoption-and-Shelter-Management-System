@@ -1,4 +1,4 @@
-package com.example.backend.Model;
+package com.example.backend.Model.users;
 
 import com.example.backend.Enums.Role;
 import jakarta.persistence.EnumType;
@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,19 +16,20 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    int userId;
-    String userName;
-    String password;
-    String phone;
-    String firstName;
-    String lastName;
-    String email;
-    Role role;
+    protected int userId;
+    protected String userName;
+    protected String email;
+    protected String password;
+    protected String phone;
+    protected String firstName;
+    protected String lastName;
+    protected Role role;
+    protected boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

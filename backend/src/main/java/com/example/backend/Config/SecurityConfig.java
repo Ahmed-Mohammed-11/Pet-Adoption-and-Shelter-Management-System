@@ -34,12 +34,12 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(
-                                "/auth/**"
-                        ).permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/shelter/**").hasAuthority(Role.SHELTER_MANAGER.name())
                         .requestMatchers("/staff/**").hasAuthority(Role.STAFF.name())
                         .requestMatchers("/manager/**").hasAuthority(Role.SHELTER_MANAGER.name())
                         .requestMatchers("/adopter/**").hasAuthority(Role.ADOPTER.name())
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
