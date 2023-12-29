@@ -16,8 +16,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AdopterService {
+
     private final SecurityUtils securityUtils;
     private final AdoptionRepository adoptionRepository;
+
     public ResponseEntity<String> adopt(int petId){
         int userId = securityUtils.getCurrentUserId();
         //TODO: check if pet exists
@@ -37,10 +39,9 @@ public class AdopterService {
         return ResponseEntity.ok("Adoption cancelled successfully");
     }
 
-    public ResponseEntity<List<NotificationDTO>> getNotifications(int pageNumber) {
+    public List<NotificationDTO> getNotifications(int pageNumber) {
         int userId = securityUtils.getCurrentUserId();
-        List<NotificationDTO> notificationDTOList = adoptionRepository.findNotPendingRecords(userId, pageNumber);
-        return ResponseEntity.ok(notificationDTOList);
+        return adoptionRepository.findNotPendingRecords(userId, pageNumber);
     }
 
     public ResponseEntity<AdoptionRecord> getAdoptionStatus(int petId) {

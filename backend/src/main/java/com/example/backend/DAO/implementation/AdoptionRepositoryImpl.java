@@ -4,25 +4,32 @@ import com.example.backend.DAO.Repository.AdoptionRepository;
 import com.example.backend.DTO.Response.NotificationDTO;
 import com.example.backend.Model.adoptionRecord.AdoptionRecord;
 import com.example.backend.Model.adoptionRecord.RecordId;
-import com.example.backend.Model.shelter.ShelterId;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
 public class AdoptionRepositoryImpl implements AdoptionRepository {
 
+    private final int pageSize;
     private final JdbcTemplate jdbcTemplate;
+
+    public AdoptionRepositoryImpl(
+            @Value("${page-size}") int pageSize,
+            JdbcTemplate jdbcTemplate
+    ){
+        this.pageSize = pageSize;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
 
     @Override
@@ -38,12 +45,12 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
             pst.setInt(1, adoptionRecord.getRecordId().getAdopterUserId());
             pst.setInt(2, adoptionRecord.getRecordId().getPetId());
             pst.setString(3, adoptionRecord.getStatus().name());
-            pst.setDate(4, (Date) adoptionRecord.getAcceptanceDate());
+            pst.setDate(4, adoptionRecord.getAcceptanceDate());
             return pst;
         }, keyHolder);
 
-        return new RecordId().builder()
-                .adopterUserId(keyHolder.getKey().intValue())
+        return RecordId.builder()
+                .adopterUserId(Objects.requireNonNull(keyHolder.getKey()).intValue())
                 .petId(adoptionRecord.getRecordId().getPetId())
                 .build();
     }
@@ -66,10 +73,10 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
 
     @Override
     public void update(AdoptionRecord adoptionRecord) {
-        String sql = "UPDATE pet_adoption.adoption_record SET adopter_id = ?, status = ?, acceptance_date = ? WHERE pet_id = ?";
+        String sql = "UPDATE pet_adoption.adoption_record SET status = ?, acceptance_date = ? WHERE pet_id = ? AND adopter_id = ?";
         jdbcTemplate.update(
-                sql, adoptionRecord.getRecordId().getAdopterUserId(), adoptionRecord.getStatus(),
-                adoptionRecord.getAcceptanceDate(), adoptionRecord.getRecordId().getPetId());
+                sql, adoptionRecord.getStatus(), adoptionRecord.getAcceptanceDate(),
+                adoptionRecord.getRecordId().getPetId() , adoptionRecord.getRecordId().getAdopterUserId());
     }
 
     @Override
@@ -85,15 +92,15 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
     }
 
     public List<NotificationDTO> findNotPendingRecords(Integer adopterUserId, int pageNumber) {
-        int offset = (pageNumber - 1) * 50;
+        int offset = (pageNumber - 1) * pageSize;
 
         String sql = "SELECT ar.status, p.name as petName, ar.acceptance_date " +
                 "FROM pet_adoption.adoption_record ar " +
                 "JOIN pet_adoption.pet p ON ar.pet_id = p.pet_id " +
                 "WHERE ar.adopter_id = ? AND ar.status != 'PENDING' " +
-                "LIMIT ? OFFSET";
+                "LIMIT ? OFFSET ?";
 
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NotificationDTO.class), adopterUserId, 50, offset);
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NotificationDTO.class), adopterUserId, pageSize, offset);
     }
 
 }
