@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -76,29 +77,29 @@ public class UserRepositoryImpl implements UserRepository {
             return pst;
         }, keyHolder);
 
-        return keyHolder.getKey().toString();
+        return Objects.requireNonNull(keyHolder.getKey()).toString();
     }
 
     @Override
-    public int update(User user) {
+    public void update(User user) {
         String sql = "UPDATE pet_adoption.user SET userName = ?, password = ?, phone = ?, " +
                 "firstName = ?, lastName = ?, email = ?, role = ? WHERE user_id = ?";
 
-        return jdbcTemplate.update(
+        jdbcTemplate.update(
                 sql, user.getUsername(), user.getPassword(), user.getPhone(),
                 user.getFirstName(), user.getLastName(), user.getEmail(),
                 user.getRole().name(), user.getUserId());
     }
 
     @Override
-    public int deleteById(String id) {
+    public void deleteById(String id) {
         String sql = "DELETE FROM pet_adoption.user WHERE user_id = ?";
-        return jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public int delete(User user) {
+    public void delete(User user) {
         String sql = "DELETE FROM pet_adoption.user WHERE user_id = ?";
-        return jdbcTemplate.update(sql, user.getUserId());
+        jdbcTemplate.update(sql, user.getUserId());
     }
 }

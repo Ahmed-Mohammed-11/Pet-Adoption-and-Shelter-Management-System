@@ -45,23 +45,23 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
     }
 
     @Override
-    public int update(AdoptionRecord adoptionRecord) {
+    public void update(AdoptionRecord adoptionRecord) {
         String sql = "UPDATE pet_adoption.adoption_record SET adopter_user_id = ?, status = ?, acceptance_date = ? WHERE pet_id = ?";
-        return jdbcTemplate.update(
+        jdbcTemplate.update(
                 sql, adoptionRecord.getAdopterUserId(), adoptionRecord.getStatus(),
                 adoptionRecord.getAcceptanceDate(), adoptionRecord.getPetId());
     }
 
     @Override
-    public int deleteById(Integer petId) {
+    public void deleteById(Integer petId) {
         String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ?";
-        return jdbcTemplate.update(sql, petId);
+        jdbcTemplate.update(sql, petId);
     }
 
     @Override
-    public int delete(AdoptionRecord adoptionRecord) {
+    public void delete(AdoptionRecord adoptionRecord) {
         String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ?";
-        return jdbcTemplate.update(sql, adoptionRecord.getPetId());
+        jdbcTemplate.update(sql, adoptionRecord.getPetId());
     }
 
     public List<NotificationDTO> findNotPendingRecords(Integer adopterUserId, int pageNumber) {

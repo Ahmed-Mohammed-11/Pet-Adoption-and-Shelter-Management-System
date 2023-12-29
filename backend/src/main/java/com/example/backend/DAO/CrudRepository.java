@@ -10,9 +10,9 @@ public interface CrudRepository<T, ID> {
 
     List<T> findAll();
 
-    int update(T entity);
+    void update(T entity);
 
-    int deleteById(ID id);
+    void deleteById(ID id);
 
-    int delete(T entity);
+    void delete(T entity);
 }

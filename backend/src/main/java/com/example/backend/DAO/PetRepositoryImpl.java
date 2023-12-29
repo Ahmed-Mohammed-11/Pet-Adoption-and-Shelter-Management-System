@@ -66,7 +66,7 @@ public class PetRepositoryImpl implements PetRepository {
     }
 
     @Override
-    public int update(Pet pet) {
+    public void update(Pet pet) {
         String sql = """
                 UPDATE pet_adoption.pet
                 SET name = ?,
@@ -96,21 +96,19 @@ public class PetRepositoryImpl implements PetRepository {
             pst.setInt(10, pet.getPetId());
             return pst;
         }, keyHolder);
-        return 0;
     }
 
     @Override
-    public int deleteById(Integer petId) {
+    public void deleteById(Integer petId) {
         String sql = """
                 DELETE FROM pet_adoption.pet WHERE pet_id = ?
                 """;
-        return jdbcTemplate.update(sql, petId);
+        jdbcTemplate.update(sql, petId);
     }
 
     @Override
-    public int delete(Pet pet) {
+    public void delete(Pet pet) {
         //not implemented
-        return 0;
     }
 
     @Override
