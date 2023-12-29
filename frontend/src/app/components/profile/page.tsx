@@ -161,16 +161,7 @@ function Profile(props: Props) {
                     value={formData.email}
                     error={!isUserValid.email}
                     helperText={isUserValid.email ? "" : errors.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    disabled={!editMode.email}
-                    onClick={() => setEditMode({...editMode, email: true})}
-                    InputProps={{
-                        endAdornment: (
-                            <IconButton color="primary" size="small">
-                                {editMode.email ? null : <EditIcon/>}
-                            </IconButton>
-                        ),
-                    }}
+                    disabled={true}
                 />
                 <TextField
                     label="Phone"
