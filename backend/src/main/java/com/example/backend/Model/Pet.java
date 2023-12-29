@@ -20,4 +20,5 @@ public class Pet {
     private String breed;
     private boolean houseTraining;
     private Behavior behavior;
+    private int shelterId;
 }
