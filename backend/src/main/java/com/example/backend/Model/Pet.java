@@ -1,6 +1,6 @@
 package com.example.backend.Model;
 
-import com.example.backend.Enums.Behavior;
+import com.example.backend.Enums.Behaviour;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +19,7 @@ public class Pet {
     private String description;
     private String breed;
     private boolean houseTraining;
-    private Behavior behavior;
+    private Behaviour behaviour;
     private int shelterId;
+
 }

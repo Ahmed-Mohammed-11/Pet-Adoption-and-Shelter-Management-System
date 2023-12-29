@@ -10,5 +10,4 @@ public interface PetRepository extends CrudRepository<Pet, Integer> {
     public Optional<Pet> findByAge(int age);
 
     // left filter by shelter location
-
 }

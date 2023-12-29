@@ -1,11 +1,15 @@
 package com.example.backend.DTO.Request;
 
-
+import com.example.backend.Enums.Behaviour;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PetDTO {
     private String name;
     private String species;
@@ -14,5 +18,6 @@ public class PetDTO {
     private String description;
     private String breed;
     private boolean houseTraining;
-    private String behavior;
+    private Behaviour behaviour;
+    private int shelterId;
 }
