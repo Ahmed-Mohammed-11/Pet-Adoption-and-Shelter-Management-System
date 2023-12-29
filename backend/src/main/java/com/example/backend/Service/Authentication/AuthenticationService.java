@@ -1,6 +1,8 @@
 package com.example.backend.Service.Authentication;
 
 import com.example.backend.Util.JWTUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,10 +16,15 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
     private JDBCUserDetailsService userDetailsService;
     private JWTUtil jwtUtil;
+    private CookieService cookieService;
 
-    public String authenticate(String userName, String password) throws BadCredentialsException {
+    public void authenticate(HttpServletResponse httpServletResponse,
+                             String userName, String password) throws BadCredentialsException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userName, password));
-        return jwtUtil.generateToken(userDetailsService.loadUserByUsername(userName));
+        String token = jwtUtil.generateToken(userDetailsService.loadUserByUsername(userName));
+
+        Cookie cookie = cookieService.createCookie("token", token);
+        httpServletResponse.addCookie(cookie);
     }
 }

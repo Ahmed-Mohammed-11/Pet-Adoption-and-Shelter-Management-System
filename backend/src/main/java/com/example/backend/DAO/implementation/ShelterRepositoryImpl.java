@@ -1,5 +1,6 @@
-package com.example.backend.DAO;
+package com.example.backend.DAO.implementation;
 
+import com.example.backend.DAO.Repository.CrudRepository;
 import com.example.backend.Model.shelter.Shelter;
 import com.example.backend.Model.shelter.ShelterId;
 import lombok.AllArgsConstructor;
@@ -68,35 +69,35 @@ public class ShelterRepositoryImpl implements CrudRepository<Shelter, ShelterId>
 
     // TODO can keys be updated????
     @Override
-    public int update(Shelter shelter) {
+    public void update(Shelter shelter) {
         String sql = """
                 UPDATE pet_adoption.shelter
                 SET name = ?, location = ?, phone = ?, email = ?
                 WHERE shelter_mgr_id = ? AND shelter_id = ?
                 """;
 
-        return jdbcTemplate.update(sql, shelter.getName(), shelter.getLocation(), shelter.getPhone(),
+        jdbcTemplate.update(sql, shelter.getName(), shelter.getLocation(), shelter.getPhone(),
                 shelter.getEmail(), shelter.getShelterId().getShelterMgrId(), shelter.getShelterId().getShelterId());
     }
 
     @Override
-    public int deleteById(ShelterId shelterId) {
+    public void deleteById(ShelterId shelterId) {
         String sql = """
                 DELETE FROM pet_adoption.shelter
                 WHERE shelter_mgr_id = ? AND shelter_id = ?
                 """;
 
-        return jdbcTemplate.update(sql, shelterId.getShelterMgrId(), shelterId.getShelterId());
+        jdbcTemplate.update(sql, shelterId.getShelterMgrId(), shelterId.getShelterId());
     }
 
     @Override
-    public int delete(Shelter entity) {
+    public void delete(Shelter entity) {
         String sql = """
                 DELETE FROM pet_adoption.shelter
                 WHERE shelter_mgr_id = ? AND shelter_id = ?
                 """;
 
-        return jdbcTemplate.update(sql, entity.getShelterId().getShelterMgrId(), entity.getShelterId().getShelterId());
+        jdbcTemplate.update(sql, entity.getShelterId().getShelterMgrId(), entity.getShelterId().getShelterId());
     }
 
 }

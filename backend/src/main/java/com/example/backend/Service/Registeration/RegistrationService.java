@@ -1,9 +1,9 @@
 package com.example.backend.Service.Registeration;
 
-import com.example.backend.DAO.AdopterRepositoryImpl;
-import com.example.backend.DAO.ManagerRepositoryImpl;
-import com.example.backend.DAO.StaffRepositoryImpl;
-import com.example.backend.DAO.UserRepository;
+import com.example.backend.DAO.implementation.AdopterRepositoryImpl;
+import com.example.backend.DAO.implementation.ManagerRepositoryImpl;
+import com.example.backend.DAO.implementation.StaffRepositoryImpl;
+import com.example.backend.DAO.Repository.UserRepository;
 import com.example.backend.DTO.Request.StaffDTO;
 import com.example.backend.DTO.Request.UserDTO;
 import com.example.backend.Enums.Role;
