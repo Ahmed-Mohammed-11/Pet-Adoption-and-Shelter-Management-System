@@ -6,6 +6,7 @@ import com.example.backend.Service.UserService;
 import com.example.backend.constants.Endpoints;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +19,15 @@ public class UserController {
 
     private UserService userService;
 
+//    @GetMapping
+//    public ResponseEntity<UserResponseDTO> getUser(@RequestParam String username) {
+//        return ResponseEntity.ok(userService.getUser(username));
+//    }
+
     @GetMapping
-    public ResponseEntity<UserResponseDTO> getUser(@RequestParam String username) {
+    public ResponseEntity<UserResponseDTO> getUserProfile(@AuthenticationPrincipal String username) {
         return ResponseEntity.ok(userService.getUser(username));
     }
+
+
 }

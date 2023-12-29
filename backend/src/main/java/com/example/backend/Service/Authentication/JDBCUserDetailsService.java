@@ -1,6 +1,6 @@
 package com.example.backend.Service.Authentication;
 
-import com.example.backend.DAO.UserRepository;
+import com.example.backend.DAO.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

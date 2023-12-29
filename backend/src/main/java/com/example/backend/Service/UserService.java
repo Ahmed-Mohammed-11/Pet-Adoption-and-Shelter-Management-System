@@ -1,7 +1,7 @@
 package com.example.backend.Service;
 
-import com.example.backend.DAO.StaffRepositoryImpl;
-import com.example.backend.DAO.UserRepository;
+import com.example.backend.DAO.implementation.StaffRepositoryImpl;
+import com.example.backend.DAO.Repository.UserRepository;
 import com.example.backend.DTO.Response.UserResponseDTO;
 import com.example.backend.Enums.Role;
 import com.example.backend.Model.users.StaffMember;

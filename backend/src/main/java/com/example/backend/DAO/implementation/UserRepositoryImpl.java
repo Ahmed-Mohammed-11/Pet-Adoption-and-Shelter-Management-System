@@ -1,5 +1,6 @@
-package com.example.backend.DAO;
+package com.example.backend.DAO.implementation;
 
+import com.example.backend.DAO.Repository.UserRepository;
 import com.example.backend.Model.users.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -77,7 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
             return pst;
         }, keyHolder);
 
-        return Objects.requireNonNull(keyHolder.getKey()).toString();
+        return keyHolder.getKey().toString();
     }
 
     @Override

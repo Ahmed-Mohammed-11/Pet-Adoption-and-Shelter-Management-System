@@ -1,7 +1,7 @@
 package com.example.backend.Config;
 
 
-import com.example.backend.DAO.UserRepository;
+import com.example.backend.DAO.Repository.UserRepository;
 import com.example.backend.Enums.Role;
 import com.example.backend.Service.Authentication.JDBCUserDetailsService;
 import lombok.AllArgsConstructor;

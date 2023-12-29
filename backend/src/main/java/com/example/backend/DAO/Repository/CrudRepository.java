@@ -1,4 +1,4 @@
-package com.example.backend.DAO;
+package com.example.backend.DAO.Repository;
 
 import java.util.List;
 import java.util.Optional;
