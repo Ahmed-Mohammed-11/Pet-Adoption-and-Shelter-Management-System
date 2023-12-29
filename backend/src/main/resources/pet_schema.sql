@@ -54,16 +54,6 @@ CREATE TABLE IF NOT EXISTS `pet_adoption`.`adoption_record` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `pet_adoption`.`category`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pet_adoption`.`category` (
-  `category_id` INT NOT NULL,
-  `name` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`category_id`));
-
-
 -- -----------------------------------------------------
 -- Table `pet_adoption`.`document`
 -- -----------------------------------------------------
@@ -80,23 +70,6 @@ CREATE TABLE IF NOT EXISTS `pet_adoption`.`document` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `pet_adoption`.`health_status`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pet_adoption`.`health_status` (
-  `pet_id` INT NOT NULL,
-  `fertility_status` TINYINT NOT NULL,
-  PRIMARY KEY (`pet_id`),
-  INDEX `fk_health_status_pet1_idx` (`pet_id` ASC) VISIBLE,
-  CONSTRAINT `fk_health_status_pet1`
-    FOREIGN KEY (`pet_id`)
-    REFERENCES `pet_adoption`.`pet` (`pet_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `pet_adoption`.`image`
@@ -120,24 +93,26 @@ ENGINE = InnoDB;
 -- Table `pet_adoption`.`pet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pet_adoption`.`pet` (
-  `pet_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `species` VARCHAR(45) NOT NULL,
-  `age` INT NOT NULL,
-  `gender` VARCHAR(1) NOT NULL,
-  `description` VARCHAR(1000) NULL,
-  `breed` VARCHAR(45) NOT NULL,
-  `house_training` TINYINT NOT NULL,
-  `behaviour` ENUM('PLAYFUL', 'CALM', 'CURIOUS', 'TIMID', 'AFFECTIONATE') NULL,
-  `shelter_id` INT NOT NULL,
-  PRIMARY KEY (`pet_id`, `shelter_id`),
-  UNIQUE INDEX `id_UNIQUE` (`pet_id` ASC) VISIBLE,
-  INDEX `fk_pet_shelter1_idx` (`shelter_id` ASC) VISIBLE,
-  CONSTRAINT `fk_pet_shelter1`
-    FOREIGN KEY (`shelter_id`)
-    REFERENCES `pet_adoption`.`shelter` (`shelter_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    `pet_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(45) NULL,
+    `species` VARCHAR(45) NOT NULL,
+    `age` INT NOT NULL,
+    `gender` VARCHAR(1) NOT NULL,
+    `description` VARCHAR(1000) NULL,
+    `breed` VARCHAR(45) NOT NULL,
+    `house_training` TINYINT NOT NULL,
+    `behaviour` ENUM('PLAYFUL', 'CALM', 'CURIOUS', 'TIMID', 'AFFECTIONATE') NULL,
+    `shelter_id` INT NOT NULL,
+    `is_fertilised` TINYINT NOT NULL DEFAULT 1,
+    `is_vaccinated` TINYINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`pet_id`, `shelter_id`),
+    UNIQUE INDEX `id_UNIQUE` (`pet_id` ASC) VISIBLE,
+    INDEX `fk_pet_shelter1_idx` (`shelter_id` ASC) VISIBLE,
+    CONSTRAINT `fk_pet_shelter1`
+        FOREIGN KEY (`shelter_id`)
+            REFERENCES `pet_adoption`.`shelter` (`shelter_id`)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -145,18 +120,18 @@ ENGINE = InnoDB;
 -- Table `pet_adoption`.`shelter`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pet_adoption`.`shelter` (
-  `shelter_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `location` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
-  `shelter_mgr_id` INT NOT NULL,
-  PRIMARY KEY (`shelter_id`, `shelter_mgr_id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `shelter_id_UNIQUE` (`shelter_id` ASC) VISIBLE,
-  INDEX `fk_shelter_shelter_manager1_idx` (`shelter_mgr_id` ASC) VISIBLE,
-  CONSTRAINT `fk_shelter_shelter_manager1`
+    `shelter_id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(45) NOT NULL,
+    `location` VARCHAR(45) NOT NULL,
+    `phone` VARCHAR(45) NULL,
+    `email` VARCHAR(45) NULL,
+    `shelter_mgr_id` INT NOT NULL,
+    PRIMARY KEY (`shelter_id`, `shelter_mgr_id`),
+    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+    UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+    UNIQUE INDEX `shelter_id_UNIQUE` (`shelter_id` ASC) VISIBLE,
+    INDEX `fk_shelter_shelter_manager1_idx` (`shelter_mgr_id` ASC) VISIBLE,
+    CONSTRAINT `fk_shelter_shelter_manager1`
     FOREIGN KEY (`shelter_mgr_id`)
     REFERENCES `pet_adoption`.`shelter_manager` (`user_id`)
     ON DELETE RESTRICT
@@ -168,10 +143,10 @@ ENGINE = InnoDB;
 -- Table `pet_adoption`.`shelter_manager`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pet_adoption`.`shelter_manager` (
-  `user_id` INT NOT NULL,
-  INDEX `fk_admin_user_idx` (`user_id` ASC) VISIBLE,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_admin_user`
+    `user_id` INT NOT NULL,
+    INDEX `fk_admin_user_idx` (`user_id` ASC) VISIBLE,
+    PRIMARY KEY (`user_id`),
+    CONSTRAINT `fk_admin_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `pet_adoption`.`user` (`user_id`)
     ON DELETE CASCADE
@@ -183,18 +158,18 @@ ENGINE = InnoDB;
 -- Table `pet_adoption`.`staff_member`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pet_adoption`.`staff_member` (
-  `user_id` INT NOT NULL,
-  `shelter_id` INT NOT NULL,
-  `staff_role` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  INDEX `fk_admin_user_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_staff_member_shelter1_idx` (`shelter_id` ASC) VISIBLE,
-  CONSTRAINT `fk_admin_user0`
+    `user_id` INT NOT NULL,
+    `shelter_id` INT NOT NULL,
+    `staff_role` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`user_id`),
+    INDEX `fk_admin_user_idx` (`user_id` ASC) VISIBLE,
+    INDEX `fk_staff_member_shelter1_idx` (`shelter_id` ASC) VISIBLE,
+    CONSTRAINT `fk_admin_user0`
     FOREIGN KEY (`user_id`)
     REFERENCES `pet_adoption`.`user` (`user_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_staff_member_shelter1`
+    CONSTRAINT `fk_staff_member_shelter1`
     FOREIGN KEY (`shelter_id`)
     REFERENCES `pet_adoption`.`shelter` (`shelter_id`)
     ON DELETE CASCADE
@@ -219,40 +194,6 @@ CREATE TABLE IF NOT EXISTS `pet_adoption`.`user` (
   UNIQUE INDEX `username_UNIQUE` (`userName` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `pet_adoption`.`vaccination`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pet_adoption`.`vaccination` (
-  `type` VARCHAR(36) NULL,
-  `vaccine_id` INT NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`vaccine_id`),
-  UNIQUE INDEX `vaccine_id_UNIQUE` (`vaccine_id` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `pet_adoption`.`vaccination_has_health_status`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pet_adoption`.`vaccination_has_health_status` (
-  `vaccination_vaccine_id` INT NOT NULL,
-  `health_status_pet_id` INT NOT NULL,
-  PRIMARY KEY (`vaccination_vaccine_id`, `health_status_pet_id`),
-  INDEX `fk_vaccination_has_health_status_health_status1_idx` (`health_status_pet_id` ASC) VISIBLE,
-  INDEX `fk_vaccination_has_health_status_vaccination1_idx` (`vaccination_vaccine_id` ASC) VISIBLE,
-  CONSTRAINT `fk_vaccination_has_health_status_vaccination1`
-    FOREIGN KEY (`vaccination_vaccine_id`)
-    REFERENCES `pet_adoption`.`vaccination` (`vaccine_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_vaccination_has_health_status_health_status1`
-    FOREIGN KEY (`health_status_pet_id`)
-    REFERENCES `pet_adoption`.`health_status` (`pet_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
