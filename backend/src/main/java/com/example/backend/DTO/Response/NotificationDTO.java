@@ -1,20 +1,17 @@
-package com.example.backend.Model;
+package com.example.backend.DTO.Response;
 
 import com.example.backend.Enums.AdoptionStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdoptionRecord {
-    private int adopterUserId;
-    private int petId;
+public class NotificationDTO {
     private AdoptionStatus status;
+    private String petName;
     private LocalDate acceptanceDate;
 }
