@@ -19,12 +19,13 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
 
 
     @Override
-    public void save(AdoptionRecord adoptionRecord) {
+    public Integer save(AdoptionRecord adoptionRecord) {
         String sql = "INSERT INTO pet_adoption.adoption_record " +
                 "(pet_id, adopter_user_id, status, acceptance_date) " +
                 "VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql,adoptionRecord.getPetId(), adoptionRecord.getAdopterUserId(),
                 adoptionRecord.getStatus(), adoptionRecord.getAcceptanceDate());
+        return adoptionRecord.getPetId();
     }
 
     @Override
@@ -44,23 +45,23 @@ public class AdoptionRepositoryImpl implements AdoptionRepository {
     }
 
     @Override
-    public void update(AdoptionRecord adoptionRecord) {
+    public int update(AdoptionRecord adoptionRecord) {
         String sql = "UPDATE pet_adoption.adoption_record SET adopter_user_id = ?, status = ?, acceptance_date = ? WHERE pet_id = ?";
-        jdbcTemplate.update(
+        return jdbcTemplate.update(
                 sql, adoptionRecord.getAdopterUserId(), adoptionRecord.getStatus(),
                 adoptionRecord.getAcceptanceDate(), adoptionRecord.getPetId());
     }
 
     @Override
-    public void deleteById(Integer petId) {
+    public int deleteById(Integer petId) {
         String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ?";
-        jdbcTemplate.update(sql, petId);
+        return jdbcTemplate.update(sql, petId);
     }
 
     @Override
-    public void delete(AdoptionRecord adoptionRecord) {
+    public int delete(AdoptionRecord adoptionRecord) {
         String sql = "DELETE FROM pet_adoption.adoption_record WHERE pet_id = ?";
-        jdbcTemplate.update(sql, adoptionRecord.getPetId());
+        return jdbcTemplate.update(sql, adoptionRecord.getPetId());
     }
 
     public List<NotificationDTO> findNotPendingRecords(Integer adopterUserId, int pageNumber) {

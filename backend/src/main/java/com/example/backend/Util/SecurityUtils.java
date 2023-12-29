@@ -1,8 +1,7 @@
 package com.example.backend.Util;
 
-
 import com.example.backend.DAO.UserRepository;
-import com.example.backend.Model.User;
+import com.example.backend.Model.users.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
