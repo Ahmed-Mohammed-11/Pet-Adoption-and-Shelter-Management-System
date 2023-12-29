@@ -40,7 +40,7 @@ public class ShelterRepositoryImpl implements CrudRepository<Shelter, ShelterId>
             pst.setInt(5, shelter.getShelterId().getShelterMgrId());
             return pst;
         }, keyHolder);
-        System.out.println(keyHolder.getKey());
+
         return new ShelterId().builder()
                 .shelterId(keyHolder.getKey().intValue())
                 .shelterMgrId(shelter.getShelterId().getShelterMgrId())

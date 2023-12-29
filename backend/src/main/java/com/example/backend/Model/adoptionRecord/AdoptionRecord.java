@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+
+import java.util.Date;
 
 @Data
 @Builder
@@ -15,5 +16,5 @@ import java.time.LocalDate;
 public class AdoptionRecord {
     private RecordId recordId;
     private AdoptionStatus status;
-    private LocalDate acceptanceDate;
+    private Date acceptanceDate;
 }
