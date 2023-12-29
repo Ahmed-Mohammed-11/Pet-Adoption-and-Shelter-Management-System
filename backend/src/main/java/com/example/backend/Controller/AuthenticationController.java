@@ -20,10 +20,13 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpServletResponse httpServletResponse, @RequestBody AuthenticationRequestDTO authenticationRequest) {
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequestDTO authenticationRequest) {
 
-        authenticationService.authenticate(httpServletResponse, authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        String token = authenticationService.authenticate(
+                        authenticationRequest.getUsername(),
+                        authenticationRequest.getPassword()
+        );
 
-        return ResponseEntity.ok("Login successful");
+        return ResponseEntity.ok(token);
     }
 }
