@@ -17,8 +17,8 @@ public class AdopterRepositoryImpl extends UserRepositoryImpl {
     }
 
     @Transactional
-    public String save(Adopter adopter) {
-        String id = this.save((User) adopter);
+    public Integer save(Adopter adopter) {
+        Integer id = this.save((User) adopter);
         String sql = "INSERT INTO pet_adoption.adopter " +
                 "(user_id) " +
                 "VALUES (?)";

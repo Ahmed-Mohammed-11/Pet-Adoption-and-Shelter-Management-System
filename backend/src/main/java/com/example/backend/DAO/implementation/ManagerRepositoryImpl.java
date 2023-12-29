@@ -13,8 +13,8 @@ public class ManagerRepositoryImpl extends UserRepositoryImpl{
     }
 
     @Transactional
-    public String save(ShelterManager shelterManager) {
-        String id = this.save((User) shelterManager);
+    public Integer save(ShelterManager shelterManager) {
+        Integer id = this.save((User) shelterManager);
         String sql = "INSERT INTO shelter_manager " +
                 "(user_id) " +
                 "VALUES (?)";

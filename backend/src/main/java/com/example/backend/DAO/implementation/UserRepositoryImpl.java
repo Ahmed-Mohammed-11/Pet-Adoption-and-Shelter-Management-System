@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     protected final JdbcTemplate jdbcTemplate;
 
     @Override
-    public Optional<User> findById(String id) {
+    public Optional<User> findById(Integer id) {
         String sql = "SELECT * FROM pet_adoption.user WHERE user_id = ?";
         return jdbcTemplate
                 .query(sql, new BeanPropertyRowMapper<>(User.class) , id)
@@ -58,7 +58,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public String save(User user) {
+    public Integer save(User user) {
         String sql = "INSERT INTO pet_adoption.user " +
                 "(userName, password, phone, firstName, lastName, email, role) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -77,7 +77,7 @@ public class UserRepositoryImpl implements UserRepository {
             return pst;
         }, keyHolder);
 
-        return keyHolder.getKey().toString();
+        return (Integer) keyHolder.getKey();
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         String sql = "DELETE FROM pet_adoption.user WHERE user_id = ?";
         jdbcTemplate.update(sql, id);
     }
