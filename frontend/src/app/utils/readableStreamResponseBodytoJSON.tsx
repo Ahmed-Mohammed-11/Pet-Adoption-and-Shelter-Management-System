@@ -4,10 +4,10 @@
 async function toJSON(body: ReadableStream) {
     const reader = body.getReader(); // `ReadableStreamDefaultReader`
     const decoder = new TextDecoder();
-    const chunks:any = [];
+    const chunks: any = [];
 
     async function read() {
-        const { done, value } = await reader.read();
+        const {done, value} = await reader.read();
 
         // all chunks have been read?
         if (done) {
@@ -15,17 +15,17 @@ async function toJSON(body: ReadableStream) {
             // parse the chunks as JSON if it's possible
             try {
                 return JSON.parse(chunks.join(''));
-            }
-            catch (error) {
+            } catch (error) {
                 return chunks.join('');
             }
         }
 
-        const chunk = decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, {stream: true});
         chunks.push(chunk);
         return read(); // read the next chunk
     }
 
     return read();
 }
+
 export default toJSON;
