@@ -28,7 +28,8 @@ function Profile(props: Props) {
 
     //make this form data coming from props
     const [formData, setFormData] = useState({
-        fullName: props.userDetail.fullName,
+        firstName: props.userDetail.firstName,
+        lastName: props.userDetail.lastName,
         username: props.userDetail.username,
         email: props.userDetail.email,
         phone: props.userDetail.phone,
@@ -38,7 +39,8 @@ function Profile(props: Props) {
 
     // Step 2: Implement Material-UI components for each field
     const [editMode, setEditMode] = useState({
-        fullName: false,
+        firstName: false,
+        lastName: false,
         username: false,
         email: false,
         phone: false,
@@ -49,7 +51,8 @@ function Profile(props: Props) {
     // Function to handle saving edited data
     const handleSave = (formData: UserDTO) => {
         setEditMode({
-            fullName: false,
+            firstName: false,
+            lastName: false,
             username: false,
             email: false,
             phone: false,
@@ -78,18 +81,35 @@ function Profile(props: Props) {
                     Profile Contact Information
                 </Typography>
                 <TextField
-                    label="Fullname"
+                    label="First Name"
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                    disabled={!editMode.fullName}
-                    onClick={() => setEditMode({...editMode, fullName: true})}
+                    value={formData.firstName}
+                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                    disabled={!editMode.firstName}
+                    onClick={() => setEditMode({...editMode, firstName: true})}
                     InputProps={{
                         endAdornment: (
                             <IconButton color="primary" size="small">
-                                {editMode.fullName ? null : <EditIcon/>}
+                                {editMode.firstName ? null : <EditIcon/>}
+                            </IconButton>
+                        ),
+                    }}
+                />
+                <TextField
+                    label="Last Name"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    value={formData.lastName}
+                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                    disabled={!editMode.lastName}
+                    onClick={() => setEditMode({...editMode, lastName: true})}
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton color="primary" size="small">
+                                {editMode.lastName ? null : <EditIcon/>}
                             </IconButton>
                         ),
                     }}

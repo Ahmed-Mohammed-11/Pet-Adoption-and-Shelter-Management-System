@@ -21,7 +21,7 @@ function Page() {
     const fetchResponse = async () => {
 
         // the two controllers as one with post request
-        let url = GET_USER_BACKEND_ENDPOINT + "?username=staff1"
+        let url = GET_USER_BACKEND_ENDPOINT + "?username=adopter1"
         let response = await getRequestController.sendGetRequest(url);
 
         // toJSON util to convert ReadableStream to JSON
@@ -41,7 +41,7 @@ function Page() {
 
     return (
         <Profile
-            userType={"staff"}
+            userType={"adopter"}
             userDetail={userDetail}
             itemList={[{text: "profile"}, {text: "pets"}, {text: "adoption records"}]}
         />

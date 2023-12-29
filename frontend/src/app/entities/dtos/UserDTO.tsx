@@ -4,6 +4,9 @@ class UserDTO {
     password!: string;
     phone?: string;
     role!: string;
-    fullName?: string;
+    firstName?: string;
+    lastName?: string;
+    shelterName?: string;
+    staffRole?: string;
 }
 

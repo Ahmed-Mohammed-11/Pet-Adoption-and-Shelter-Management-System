@@ -4,10 +4,15 @@ import {Button, Link, TextField} from "@mui/material";
 import {Box} from "@mui/system";
 import {useRef, useState} from "react";
 import signupController from "@/app/services/signupController";
-import {SIGN_IN_ROUTE, SIGN_UP_BACKEND_ENDPOINT,} from "@/app/constants/apiConstants";
+import {
+    SIGN_IN_ROUTE,
+    SIGN_UP_ADOPTER_BACKEND_ENDPOINT,
+    SIGN_UP_MANAGER_BACKEND_ENDPOINT, SIGN_UP_STAFF_BACKEND_ENDPOINT,
+} from "@/app/constants/apiConstants";
 import clientValidateForm from "@/app/security/userValidation/clientFormValidation";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import {useRouter} from "next/navigation";
+import {setReferenceManifestsSingleton} from "next/dist/server/app-render/action-encryption-utils";
 
 function Page() {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -54,14 +59,25 @@ function Page() {
             password: user.password,
             role: "user",
             phone: "",
-            fullName: "",
+            firstName: "",
+            lastName: ""
         }
         //not sure about this await
         await fetchResponse(userDTO);
     }
 
     const fetchResponse = async (userDTO: UserDTO) => {
-        let response = await signupController.sendPostRequest(userDTO, SIGN_UP_BACKEND_ENDPOINT);
+        let response: Response;
+        if(userDTO.role == "adopter") {
+            response = await signupController.sendPostRequest(userDTO, SIGN_UP_ADOPTER_BACKEND_ENDPOINT);
+        } else if (userDTO.role == "staff") {
+            response = await signupController.sendPostRequest(userDTO, SIGN_UP_STAFF_BACKEND_ENDPOINT);
+        } else if (userDTO.role == "manager") {
+            response = await signupController.sendPostRequest(userDTO, SIGN_UP_MANAGER_BACKEND_ENDPOINT);
+        } else {
+            throw new Error("Invalid user role");
+        }
+
         // toJSON util to convert ReadableStream to JSON
         let jsonResponse = await toJSON(response.body!);
         let responseStat = response.status;
