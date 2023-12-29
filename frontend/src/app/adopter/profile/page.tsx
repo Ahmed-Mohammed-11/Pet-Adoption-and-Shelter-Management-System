@@ -18,29 +18,31 @@ function Page() {
         role: "",
     });
 
-    // const [userDetail, setUserDetail] = useState( () => fetchResponse())
+    const [firstRender, setFirstRender] = useState(true);
 
-    useEffect(() => {
-        const fetchResponse = async () => {
-            // the two controllers as one with post request
-            let response = await getRequestController.sendGetRequest(GET_USER_BACKEND_ENDPOINT);
+    // useEffect(() => {
+    //     if(!firstRender) return;
+    //     const fetchResponse = async () => {
+    //         // the two controllers as one with post request
+    //         let response = await getRequestController.sendGetRequest(GET_USER_BACKEND_ENDPOINT);
+    //
+    //         // toJSON util to convert ReadableStream to JSON
+    //         let jsonResponse = await toJSON(response.body!);
+    //         let responseStat = response.status;
+    //
+    //         setUserDetail({
+    //             ...jsonResponse
+    //         })
+    //     }
+    //
+    //     fetchResponse();
+    //     setFirstRender(false);
+    //
+    //     console.log("responseee " + userDetail.firstName)
+    //     // console.log("omar ba2a: " + userDetail.firstName)
+    // }, [firstRender])
 
-            // toJSON util to convert ReadableStream to JSON
-            let jsonResponse = await toJSON(response.body!);
-            let responseStat = response.status;
 
-            setUserDetail({
-                firstName: jsonResponse.firstName,
-                lastName: jsonResponse.lastName,
-                username: jsonResponse.username,
-                email: jsonResponse.email,
-                phone: jsonResponse.phone,
-                password: jsonResponse.password,
-                role: jsonResponse.role,
-            })
-        }
-        fetchResponse().then(r => console.log("ana geeeeeeeeeeeeeeeeeeeeet"))
-    }, [])
 
     return (
         <Profile

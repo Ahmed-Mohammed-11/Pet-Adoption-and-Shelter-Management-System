@@ -41,12 +41,13 @@ function handleWrongCredentials(responseBody: UserValidationResponse) {
     errors.password = USER_WRONG_CREDENTIALS_MSG;
 }
 
-function handleAuth(userDTO: UserDTO) {
-    const authToken = buildAuthToken(userDTO);
+function handleAuth(token: string) {
+    const authToken = buildAuthToken(token);
+    console.log("my auth token: " + token);
     localStorage.setItem("Authorization", authToken);
 }
 
-function loginServerFormValidationMapper(responseStatus: number, responseBody: UserValidationResponse, userDTO: UserDTO) {
+function loginServerFormValidationMapper(responseStatus: number, responseBody: UserValidationResponse, token: string) {
 
     isUserValid = {
         username: true,
@@ -62,7 +63,7 @@ function loginServerFormValidationMapper(responseStatus: number, responseBody: U
 
     switch (responseStatus) {
         case 200:
-            handleAuth(userDTO)
+            handleAuth(token)
             break;
         case 400:
             handleInvalidCredentials(responseBody);

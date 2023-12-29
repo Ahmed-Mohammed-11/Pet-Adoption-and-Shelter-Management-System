@@ -6,7 +6,6 @@ class LoginController implements IPostRequestController {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('mode', 'cors')
-        headers.append("withCredentials", "true");
 
         return fetch(url, {
             method: "POST",
