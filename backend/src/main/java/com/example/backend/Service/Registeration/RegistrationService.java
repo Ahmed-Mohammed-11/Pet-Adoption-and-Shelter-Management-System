@@ -60,7 +60,7 @@ public class RegistrationService {
 
     private User setUserParameters(User user, UserDTO userDTO, Role role) {
 
-        user.setUserName(userDTO.getUserName());
+        user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setPhone(userDTO.getPhone());
@@ -72,7 +72,7 @@ public class RegistrationService {
     }
 
     public boolean userExists(UserDTO userDTO) {
-        return userRepository.findByUserName(userDTO.getUserName()).isPresent() ||
+        return userRepository.findByUserName(userDTO.getUsername()).isPresent() ||
                 userRepository.findByEmail(userDTO.getEmail()).isPresent();
     }
 

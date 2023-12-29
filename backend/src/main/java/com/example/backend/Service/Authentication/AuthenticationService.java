@@ -16,15 +16,10 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
     private JDBCUserDetailsService userDetailsService;
     private JWTUtil jwtUtil;
-    private CookieService cookieService;
 
-    public void authenticate(HttpServletResponse httpServletResponse,
-                             String userName, String password) throws BadCredentialsException {
+    public String authenticate(String userName, String password) throws BadCredentialsException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userName, password));
-        String token = jwtUtil.generateToken(userDetailsService.loadUserByUsername(userName));
-
-        Cookie cookie = cookieService.createCookie("token", token);
-        httpServletResponse.addCookie(cookie);
+        return jwtUtil.generateToken(userDetailsService.loadUserByUsername(userName));
     }
 }

@@ -19,7 +19,7 @@ public class UserDTO {
 
     @NotBlank(message = "Username is mandatory")
     @Pattern(regexp = USERNAME_REGEX, message = "Username Format isn't valid")
-    private String userName;
+    private String username;
 
     @NotBlank(message = "Password is mandatory")
     @Pattern(regexp = PASSWORD_REGEX, message = "Password Format isn't valid")
