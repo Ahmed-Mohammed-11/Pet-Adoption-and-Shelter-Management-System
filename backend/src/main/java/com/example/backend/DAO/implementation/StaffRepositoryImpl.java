@@ -35,8 +35,8 @@ public class StaffRepositoryImpl extends UserRepositoryImpl {
     }
 
     @Transactional
-    public String save(StaffMember staff) {
-        String user_id = this.save((User)staff);
+    public Integer save(StaffMember staff) {
+        Integer user_id = this.save((User)staff);
 
         String sql = """
                 INSERT INTO pet_adoption.staff_member
