@@ -1,4 +1,4 @@
-package com.example.backend.DAO;
+package com.example.backend.DAO.implementation;
 
 import com.example.backend.Model.users.Adopter;
 import com.example.backend.Model.users.User;

@@ -2,8 +2,8 @@ package com.example.backend.Controller;
 
 
 import com.example.backend.DTO.Request.AuthenticationRequestDTO;
-import com.example.backend.DTO.Response.AuthenticationResponseDTO;
 import com.example.backend.Service.Authentication.AuthenticationService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,17 +20,10 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDTO> login
-            (@RequestBody AuthenticationRequestDTO authenticationRequest) {
+    public ResponseEntity<String> login(HttpServletResponse httpServletResponse, @RequestBody AuthenticationRequestDTO authenticationRequest) {
 
-        String token = authenticationService.authenticate(
-                authenticationRequest.getUserName(),
-                authenticationRequest.getPassword());
-        return ResponseEntity.ok(
-                AuthenticationResponseDTO
-                .builder()
-                .token(token)
-                .build()
-        );
+        authenticationService.authenticate(httpServletResponse, authenticationRequest.getUserName(), authenticationRequest.getPassword());
+
+        return ResponseEntity.ok("Login successful");
     }
 }

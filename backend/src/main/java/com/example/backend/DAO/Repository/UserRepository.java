@@ -1,5 +1,6 @@
-package com.example.backend.DAO;
+package com.example.backend.DAO.Repository;
 
+import com.example.backend.DAO.Repository.CrudRepository;
 import com.example.backend.Model.users.User;
 
 import java.util.Optional;

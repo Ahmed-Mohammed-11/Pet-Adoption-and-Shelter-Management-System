@@ -1,12 +1,11 @@
 package com.example.backend.Service;
 
-import com.example.backend.DAO.ShelterRepositoryImpl;
+import com.example.backend.DAO.implementation.ShelterRepositoryImpl;
 import com.example.backend.DTO.Request.ShelterDTO;
 import com.example.backend.Model.shelter.Shelter;
 import com.example.backend.Model.shelter.ShelterId;
 import com.example.backend.Util.SecurityUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 
 @Service
