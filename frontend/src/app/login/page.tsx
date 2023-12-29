@@ -8,6 +8,7 @@ import loginController from "@/app/services/loginController";
 import {SIGN_IN_BACKEND_ENDPOINT, SIGN_UP_ROUTE} from "@/app/constants/apiConstants";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import {useRouter} from "next/navigation";
+import loginServerFormValidationMapper from "@/app/security/userValidation/loginServerFormValidationMapper";
 
 function Page() {
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -57,12 +58,11 @@ function Page() {
         let responseStat = response.status;
 
         //if response status is 200, redirect to home page
-
         // if response status is not 200, map response from server to display appropriate error messages
         // and if 200 get auth token and store it in local storage
-        // let {isUserValid, errors} = loginServerFormValidationMapper(responseStat, jsonResponse, userDTO)
-        // setIsUserValid(isUserValid);
-        // setErrors(errors);
+        let {isUserValid, errors} = loginServerFormValidationMapper(responseStat, jsonResponse, jsonResponse)
+        setIsUserValid(isUserValid);
+        setErrors(errors);
 
     }
 

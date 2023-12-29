@@ -68,6 +68,8 @@ function Profile(props: Props) {
         console.log(errors);
     };
 
+    console.log("ana gwa" + props.userDetail.firstName);
+
     return (
 
         // sidebar
@@ -85,7 +87,7 @@ function Profile(props: Props) {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    value={formData.firstName}
+                    value={props.userDetail.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                     disabled={!editMode.firstName}
                     onClick={() => setEditMode({...editMode, firstName: true})}
