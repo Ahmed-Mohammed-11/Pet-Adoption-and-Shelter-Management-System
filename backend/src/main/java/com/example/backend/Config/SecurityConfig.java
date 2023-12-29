@@ -31,10 +31,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
+//                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/shelter/**").hasAuthority(Role.SHELTER_MANAGER.name())
                         .requestMatchers("/staff/**").hasAuthority(Role.STAFF.name())
                         .requestMatchers("/manager/**").hasAuthority(Role.SHELTER_MANAGER.name())

@@ -1,10 +1,7 @@
 package com.example.backend.Model.users;
 
 import com.example.backend.Enums.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -22,7 +19,7 @@ import java.util.List;
 public class User implements UserDetails {
 
     protected int userId;
-    protected String userName;
+    protected String username;
     protected String email;
     protected String password;
     protected String phone;
@@ -38,7 +35,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return this.username;
     }
 
     @Override
