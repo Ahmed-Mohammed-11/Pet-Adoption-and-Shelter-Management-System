@@ -52,6 +52,7 @@ public class PetService {
     }
 
     public void deletePet(int petId) {
+        petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException("Pet with id " + petId + " not found"));
         petRepository.deleteById(petId);
     }
 }
