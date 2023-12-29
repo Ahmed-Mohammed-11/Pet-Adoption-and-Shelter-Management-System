@@ -57,10 +57,10 @@ function Page() {
             username: user.username,
             email: user.email,
             password: user.password,
-            role: "user",
-            phone: "",
-            firstName: "",
-            lastName: ""
+            role: "adopter",
+            phone: "0155555",
+            firstName: "Omar",
+            lastName: "Tammam"
         }
         //not sure about this await
         await fetchResponse(userDTO);
@@ -69,6 +69,7 @@ function Page() {
     const fetchResponse = async (userDTO: UserDTO) => {
         let response: Response;
         if(userDTO.role == "adopter") {
+            console.log("User DTO: " + userDTO.username + " " + userDTO.email + " " + userDTO.password + " " + userDTO.role + " " + userDTO.phone + " " + userDTO.firstName + " " + userDTO.lastName);
             response = await signupController.sendPostRequest(userDTO, SIGN_UP_ADOPTER_BACKEND_ENDPOINT);
         } else if (userDTO.role == "staff") {
             response = await signupController.sendPostRequest(userDTO, SIGN_UP_STAFF_BACKEND_ENDPOINT);
@@ -81,8 +82,9 @@ function Page() {
         // toJSON util to convert ReadableStream to JSON
         let jsonResponse = await toJSON(response.body!);
         let responseStat = response.status;
-        //if response status is 200, redirect to home page
 
+        //if response status is 200, redirect to home page
+        console.log("sign up response: " + jsonResponse.status)
         //if response status is not 200, map response from server to display appropriate error messages
         //and if 200 get auth token and store it in local storage
 
