@@ -1,4 +1,5 @@
 interface PetDTO {
+    petId?: number;
     name: string;
     species: string;
     age: number;

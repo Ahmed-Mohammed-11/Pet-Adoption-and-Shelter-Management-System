@@ -221,7 +221,7 @@ function CreatePet(props : ModalProps) {
                             value={neutered}
                             onChange={(e, newValue) => {
                                 setNeutered(newValue === 'true')
-                                setFormData({...formData, neutering: newValue === 'true'})
+                                setFormData({...formData, isFertilised: newValue === 'true'})
                             }}
                         >
                             <FormControlLabel value={true} control={<Radio />} label="Yes" />
@@ -245,7 +245,7 @@ function CreatePet(props : ModalProps) {
                             value={vaccinated}
                             onChange={(e, newValue) => {
                                 setVaccinated(newValue === 'true')
-                                setFormData({...formData, vaccinated: newValue === 'true'})
+                                setFormData({...formData, isVaccinated: newValue === 'true'})
                             }}
                         >
                             <FormControlLabel value={true} control={<Radio />} label="Yes" />
