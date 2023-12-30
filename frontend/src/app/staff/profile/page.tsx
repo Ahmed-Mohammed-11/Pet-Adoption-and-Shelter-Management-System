@@ -20,9 +20,11 @@ function Page() {
 
     // const [userDetail, setUserDetail] = useState( () => fetchResponse())
 
+    const [firstRender, setFirstRender] = useState(true);
+
     useEffect(() => {
+        if(!firstRender) return;
         const fetchResponse = async () => {
-            console.log("ana geet")
             // the two controllers as one with post request
             let response = await getRequestController.sendGetRequest(GET_USER_BACKEND_ENDPOINT);
 
@@ -31,18 +33,14 @@ function Page() {
             let responseStat = response.status;
 
             setUserDetail({
-                firstName: jsonResponse.firstName,
-                lastName: jsonResponse.lastName,
-                username: jsonResponse.username,
-                email: jsonResponse.email,
-                phone: jsonResponse.phone,
-                password: jsonResponse.password,
-                role: jsonResponse.role,
+                ...jsonResponse
             })
         }
-        console.log("goda")
-        fetchResponse().then(r => console.log("ana geet2"))
-    }, [])
+
+        fetchResponse();
+        setFirstRender(false);
+
+    }, [firstRender])
 
     return (
         <Profile

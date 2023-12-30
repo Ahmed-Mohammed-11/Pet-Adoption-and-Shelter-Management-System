@@ -3,7 +3,11 @@ export const SIGN_UP_ADOPTER_BACKEND_ENDPOINT = '/auth/register/adopter';
 export const SIGN_UP_STAFF_BACKEND_ENDPOINT = '/auth/register/staff';
 export const SIGN_UP_MANAGER_BACKEND_ENDPOINT = '/auth/register/manager';
 export const SIGN_IN_BACKEND_ENDPOINT = '/auth/login';
-export const SIGN_UP_ROUTE = '/signup';
-export const SIGN_IN_ROUTE = '/login';
 export const GET_USER_BACKEND_ENDPOINT = '/user';
 export const GET_SHELTERS_BACKEND_ENDPOINT = '/shelters';
+export const SIGN_UP_ROUTE = '/signup';
+export const SIGN_IN_ROUTE = '/login';
+export const MANAGER_PROFILE_ROUTE = 'manager/profile';
+export const STAFF_PROFILE_ROUTE = 'staff/profile';
+export const ADOPTER_PROFILE_ROUTE = 'adopter/profile';
+
