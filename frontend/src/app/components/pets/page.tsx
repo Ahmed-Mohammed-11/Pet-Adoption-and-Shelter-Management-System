@@ -57,7 +57,7 @@ function Pets(props: Props) {
                         padding={'2vh 2vw'}
                     >
                         {props.pets.map((pet: PetDTO) => (
-                            <PetCard pet={pet} />
+                            <PetCard pet={pet} userType={props.userType}/>
                         ))}
                     </Grid>
                 </Paper>
