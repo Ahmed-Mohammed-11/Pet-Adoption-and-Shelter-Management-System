@@ -25,7 +25,6 @@ public class AuthenticationController {
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
         );
-
         return ResponseEntity.ok(token);
     }
 }
