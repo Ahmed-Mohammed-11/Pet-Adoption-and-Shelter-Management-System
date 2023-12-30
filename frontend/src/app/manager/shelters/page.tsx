@@ -45,6 +45,13 @@ function Page() {
             phone: "+201234567891",
             email: "shelter@example.com"
         },
+        {
+            shelterId: 6,
+            name: "Shelter 6",
+            location: "69 Ahmed Ali st.,",
+            phone: "+201234567891",
+            email: "shelter@example.com",
+        }
     ]
 
     const fetchResponse = async () => {

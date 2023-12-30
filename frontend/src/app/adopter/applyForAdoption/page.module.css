@@ -1,0 +1,21 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    height: 10%;
+    width: 100%;
+}
+
+
+
+.success{
+  color: #388E3C;
+}
