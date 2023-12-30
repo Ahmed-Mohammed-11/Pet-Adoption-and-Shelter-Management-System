@@ -1,12 +1,16 @@
 package com.example.backend.service;
 
 import com.example.backend.dao.implementation.PetRepositoryImpl;
+import com.example.backend.dao.implementation.ShelterRepositoryImpl;
+import com.example.backend.dao.implementation.StaffRepositoryImpl;
 import com.example.backend.dao.implementation.UserRepositoryImpl;
 import com.example.backend.dto.Request.PetDTO;
 import com.example.backend.enums.Behaviour;
 import com.example.backend.exceptions.exception.PetNotFoundException;
 import com.example.backend.model.Pet;
+import com.example.backend.model.users.StaffMember;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,7 @@ import java.util.List;
 public class PetService {
 
     private PetRepositoryImpl petRepository;
+    private StaffRepositoryImpl staffRepository;
 
     private Pet petBuilder(PetDTO petDTO) {
         return Pet.builder()
@@ -33,9 +38,12 @@ public class PetService {
                 .build();
     }
 
-    public Object getPets() {
-        return petRepository.findAll();
+    public List<Pet> getPets(int userId, int pageNumber) {
+        StaffMember staffMember = staffRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Staff member not found"));
+
+        return petRepository.getPetsByShelterId(staffMember.getShelterId(), pageNumber);
     }
+
 
     public Object getPet(int petId) {
         Pet pet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException("Pet with id " + petId + " not found"));
@@ -54,7 +62,9 @@ public class PetService {
                 .build();
     }
 
-    public Integer createPet(PetDTO petDTO) {
+    public Integer createPet(PetDTO petDTO, int userId) {
+        StaffMember staffMember = staffRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Staff member not found"));
+        petDTO.setShelterId(staffMember.getShelterId());
         Pet pet = petBuilder(petDTO);
         return petRepository.save(pet);
     }
@@ -70,7 +80,13 @@ public class PetService {
         petRepository.deleteById(petId);
     }
 
-    public List<Pet> getPetWithFilters(String breed, String species, Integer age, String gender, Boolean isFertilised, Boolean isVaccinated, Boolean houseTraining, Behaviour behaviour) {
-        return petRepository.filterBy(breed, species, age, gender, isFertilised, isVaccinated, houseTraining, behaviour);
+    public List<Pet> getPetWithFilters(String breed, String species, Integer age, String gender, Boolean isFertilised, Boolean isVaccinated, Boolean houseTraining, Behaviour behaviour, Integer shelterId, Integer pageNumber) {
+        return petRepository.filterBy(breed, species, age, gender, isFertilised, isVaccinated, houseTraining, behaviour, shelterId, pageNumber);
+    }
+
+    public void isExistingPet(int petId) {
+        if(!petRepository.isPetExists(petId)) {
+            throw new PetNotFoundException("Pet with id " + petId + " not found");
+        }
     }
 }

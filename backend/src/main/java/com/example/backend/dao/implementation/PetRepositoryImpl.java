@@ -5,6 +5,8 @@ import com.example.backend.dao.Repository.PetRepository;
 import com.example.backend.enums.Behaviour;
 import com.example.backend.model.Pet;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,10 +20,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-@AllArgsConstructor
 public class PetRepositoryImpl implements PetRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private int pageSize;
+
+    public PetRepositoryImpl(
+            @Value("${page-size}") int pageSize,
+            JdbcTemplate jdbcTemplate
+    ){
+        this.pageSize = pageSize;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Integer save(Pet pet) {
@@ -150,8 +161,11 @@ public class PetRepositoryImpl implements PetRepository {
                 .findFirst();
     }
 
-    public List<Pet> filterBy(String breed, String species, Integer age, String gender, Boolean isVaccinated, Boolean isFertilised, Boolean houseTraining, Behaviour behaviour) {
+    public List<Pet> filterBy(String breed, String species, Integer age, String gender, Boolean isVaccinated, Boolean isFertilised, Boolean houseTraining, Behaviour behaviour, Integer shelterId, Integer pageNumber) {
+        int offset = (pageNumber - 1) * pageSize;
+
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM pet_adoption.pet WHERE 1=1");
+        queryBuilder.append((shelterId != null) ? " AND shelter_id = " + shelterId : "");
         queryBuilder.append((breed != null) ? " AND breed LIKE '%" + breed + "%'" : "");
         queryBuilder.append((species != null) ? " AND species LIKE '%" + species + "%'" : "");
         queryBuilder.append((age != null) ? " AND age = '" + age + "'" : "");
@@ -160,9 +174,35 @@ public class PetRepositoryImpl implements PetRepository {
         queryBuilder.append((isFertilised != null) ? " AND is_fertilised = " + isFertilised : "");
         queryBuilder.append((houseTraining != null) ? " AND house_training = " + houseTraining : "");
         queryBuilder.append((behaviour != null) ? " AND behaviour = '" + behaviour + "'" : "");
+        queryBuilder.append(" LIMIT " + pageSize + " OFFSET " + offset);
 
         String sql = queryBuilder.toString();
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Pet.class));
     }
+
+    public boolean isPetExists(Integer petId) {
+        String sql = """
+                    SELECT EXISTS(SELECT 1 FROM pet_adoption.pet WHERE pet_id = ?)
+                    """;
+        return jdbcTemplate.queryForObject(sql, Boolean.class, petId);
+    }
+
+    public List<Pet> getPetsByShelterId(Integer shelterId, int pageNumber) {
+        int offset = (pageNumber - 1) * pageSize;
+        String sql = """
+            SELECT * FROM pet_adoption.pet WHERE shelter_id = ? 
+            LIMIT ? OFFSET ?
+            """;
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Pet.class), shelterId, pageSize, offset);
+
+    }
+
+    public void removePetFromShelter(Integer petId) {
+        String sql = """
+                 UPDATE pet_adoption.pet SET shelter_id = NULL WHERE pet_id = ?
+                 """;
+        jdbcTemplate.update(sql, petId);
+    }
+
 }

@@ -34,6 +34,23 @@ public class StaffRepositoryImpl extends UserRepositoryImpl {
                 .findFirst();
     }
 
+    public Optional<StaffMember> findByUserId(Integer userId) {
+        String sql = """
+                SELECT u.user_id, u.userName, u.password,
+                    u.phone, u.firstName, u.lastName,
+                    u.email, u.role, sm.staff_role,
+                    sm.shelter_id
+                FROM pet_adoption.staff_member AS sm
+                JOIN pet_adoption.user AS u ON sm.user_id = u.user_id
+                WHERE sm.user_id = ?
+                """;
+
+        return jdbcTemplate
+                .query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(StaffMember.class))
+                .stream()
+                .findFirst();
+    }
+
     @Transactional
     public Integer save(StaffMember staff) {
         Integer user_id = this.save((User)staff);
@@ -43,11 +60,11 @@ public class StaffRepositoryImpl extends UserRepositoryImpl {
                 (user_id, shelter_id, staff_role)
                 SELECT ?, shelter_id, ?
                 FROM pet_adoption.shelter
-                WHERE name = ?
+                WHERE shelter_id = ?
                 """;
 
 
-        jdbcTemplate.update(sql, user_id, staff.getStaffRole(), staff.getShelterName());
+        jdbcTemplate.update(sql, user_id, staff.getStaffRole(), staff.getShelterId());
 
         return user_id;
     }

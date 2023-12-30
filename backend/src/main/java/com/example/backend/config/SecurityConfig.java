@@ -41,8 +41,12 @@ public class SecurityConfig {
                 }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/auth/**","/user/**", "/pets/**", "/shelter/**").permitAll()
-                        //.requestMatchers("/shelter/**").hasAuthority(Role.SHELTER_MANAGER.name())//TODO:make this for manager
+                        .requestMatchers(
+                                "/auth/**",
+                                "/user/**",
+                                "/pets/**",
+                                "/shelter/**",
+                                "/test/**").permitAll()
                         .requestMatchers("/staff/**").hasAuthority(Role.STAFF.name())
                         .requestMatchers("/manager/**").hasAuthority(Role.SHELTER_MANAGER.name())
                         .requestMatchers("/adopter/**").hasAuthority(Role.ADOPTER.name())

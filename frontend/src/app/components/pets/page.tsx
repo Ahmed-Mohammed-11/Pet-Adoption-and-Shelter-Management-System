@@ -50,6 +50,11 @@ function Pets(props: Props) {
     const fetchResponse = async () => {
         // the two controllers as one with post request
         let url = GET_PETS_BACKEND_ENDPOINT
+        if(props.userType == "staff") {
+            url = "/staff/pets?pageNumber=1"
+        } else {
+            url = "/adopter/pets?pageNumber=1"
+        }
         let response = await getRequestController.sendGetRequest(url);
 
         // toJSON util to convert ReadableStream to JSON

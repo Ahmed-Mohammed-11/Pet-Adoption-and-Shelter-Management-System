@@ -23,7 +23,7 @@ public class UserController {
 //    }
 
     @GetMapping
-    public ResponseEntity<UserResponseDTO> getUserProfile(@AuthenticationPrincipal String username) {
-        return ResponseEntity.ok(userService.getUser(username));
+    public ResponseEntity<UserResponseDTO> getUserProfile(@AuthenticationPrincipal int userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
     }
 }

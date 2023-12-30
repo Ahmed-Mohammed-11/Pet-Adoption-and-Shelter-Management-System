@@ -45,7 +45,7 @@ function Page() {
 
     const handleSubmit = () => {
         // user credentials
-        let user: User = {
+        let user: UserDTO = {
             username: usernameRef.current!.value,
             email: emailRef.current!.value,
             password: passwordRef.current!.value,
@@ -53,8 +53,8 @@ function Page() {
             phone: phoneRef.current!.value,
             firstName: firstNameRef.current!.value,
             lastName: lastNameRef.current!.value,
-            shelterName: shelterNameRef.current!.value,
-            staffRole: staffRoleRef.current!.value
+            shelterName: shelterNameRef.current?.value,
+            staffRole: staffRoleRef.current?.value
         }
 
         // validate user credentials on client side
@@ -81,8 +81,8 @@ function Page() {
             phone: user.phone,
             firstName: user.firstName,
             lastName: user.lastName,
-            shelterName: user.shelterName,
-            staffRole: user.staffRole
+            shelterName: user?.shelterName,
+            staffRole: user?.staffRole
         }
         //not sure about this await
         await fetchResponse(userDTO);

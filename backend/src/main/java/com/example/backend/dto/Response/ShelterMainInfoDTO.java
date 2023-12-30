@@ -7,9 +7,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class AuthenticationResponseDTO {
-    private String token;
+public class ShelterMainInfoDTO {
+    private int shelterId;
+    private String name;
+    private String email;
+    private String location;
+    private String phone;
 }

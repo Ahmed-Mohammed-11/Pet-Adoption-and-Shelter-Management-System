@@ -6,7 +6,7 @@ class UserDTO {
     role!: string;
     firstName?: string;
     lastName?: string;
-    shelterName!: string;
-    staffRole!: string;
+    shelterName?: string;
+    staffRole?: string;
 }
 
