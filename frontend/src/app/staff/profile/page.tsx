@@ -46,7 +46,7 @@ function Page() {
         <Profile
             userType={"staff"}
             userDetail={userDetail}
-            itemList={[{text: "profile"}, {text: "pets"}, {text: "adoption records"}]}
+            itemList={[{text: "profile"}, {text: "pets"}, {text: "adoptionRecords"}]}
         />
     );
 }

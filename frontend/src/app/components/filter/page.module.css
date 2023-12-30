@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    border-radius: 30px;
+    margin: 1%;
+}
+
+.container span {
+    margin: 1%;
+}
