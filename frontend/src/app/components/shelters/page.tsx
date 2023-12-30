@@ -2,15 +2,19 @@
 import styles from './page.module.css'
 import {Box, Stack} from "@mui/system";
 import {Button, Fab, Fade, Grid, Modal, Paper, TextField, Typography} from "@mui/material";
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import SideBar from "@/app/components/side-bar/side-bar";
 import ShelterCard from "../shelter-card/shelter-card";
 import AddIcon from '@mui/icons-material/Add';
 import { MuiTelInput } from 'mui-tel-input';
+import {ADD_PETS_BACKEND_ENDPOINT, GET_PETS_BACKEND_ENDPOINT, GET_SHELTER_ENDPOINT} from "@/app/constants/apiConstants";
+import getRequestController from "@/app/services/getRequestController";
+import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
+import postRequestController from "@/app/services/postRequestController";
 
 interface Props {
     itemList: any,
-    shelters: ShelterDTO[],
+    // shelters: ShelterDTO[],
     userType: string,
 }
 
@@ -22,11 +26,30 @@ interface ModalProps {
 
 function Shelters(props: Props) {
 
-    const [modal, setModal] = useState(false); 
-
+    const [modal, setModal] = useState(false);
+    const [shelters, setShelters] = useState<ShelterDTO[]>([]);
     const addShelter = (shelter : ShelterDTO) => {
-        props.shelters.push(shelter);
+        shelters.push(shelter);
     }
+
+    useEffect(() => {
+        fetchResponse();
+    }, []);
+
+    const fetchResponse = async () => {
+        // the two controllers as one with post request
+        let url = GET_SHELTER_ENDPOINT;
+
+        let response = await getRequestController.sendGetRequest(url);
+
+        // toJSON util to convert ReadableStream to JSON
+        let jsonResponse = await toJSON(response.body!);
+        let responseStat = response.status;
+        console.log(jsonResponse)
+
+        setShelters(jsonResponse)
+    }
+
 
     return (
         // SideBar
@@ -49,7 +72,7 @@ function Shelters(props: Props) {
                         margin={'2vh auto'}
                         padding={'2vh 2vw'}
                     >
-                        {props.shelters.map((shelter: ShelterDTO) => (
+                        {shelters.map((shelter: ShelterDTO) => (
                             <ShelterCard shelter={shelter} userType={props.userType} />
                         ))}
                     </Grid>
@@ -80,9 +103,30 @@ function CreateShelter(props : ModalProps) {
 
     const addShelter = () => {
         console.log(formData);
+        fetchResponse();
         props.handleClose(false);
         props.onAddShelter(formData);
     }
+
+    useEffect(() => {
+        fetchResponse();
+    }, []);
+
+    const fetchResponse = async () => {
+
+        // the two controllers as one with post request
+        let url = "/manager/shelter/create"
+        let response = await postRequestController.sendPostRequest(formData, url);
+
+        // toJSON util to convert ReadableStream to JSON
+        let jsonResponse = await toJSON(response.body!);
+        let responseStat = response.status;
+        console.log(jsonResponse)
+        if(responseStat === 200) {
+            console.log("Shelter added successfully")
+        }
+    }
+
 
     return (
         <Modal

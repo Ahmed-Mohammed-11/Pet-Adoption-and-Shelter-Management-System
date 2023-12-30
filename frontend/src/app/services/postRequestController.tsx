@@ -8,6 +8,7 @@ class PostRequest implements IPostRequestController {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('mode', 'cors')
+        headers.append('Authorization', localStorage.getItem("Authorization")!);
 
         return fetch(url, {
             method: 'POST',
