@@ -45,7 +45,7 @@ function Page() {
         <Profile
             userDetail={userDetail}
             userType={"manager"}
-            itemList={[{text: "profile"}, {text: "shelters"}, {text: "pets"}]}
+            itemList={[{text: "profile"}, {text: "shelters"}]}
         />
     );
 }

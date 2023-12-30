@@ -48,8 +48,10 @@ public class AdopterController {
         return adopterService.getAdoptionStatus(userId, petId);
     }
     @GetMapping("pets")
-    public ResponseEntity<Object> getPets(@RequestParam int shelterId, @RequestParam int pageNumber) {
-        return ResponseEntity.status(HttpStatus.OK).body(petService.getPets(shelterId, pageNumber));
+    public ResponseEntity<Object> getPets(@RequestParam int pageNumber) {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                petService.getPetWithFilters(null, null, null, null,
+                        null, null, null, null, null, pageNumber));
     }
 
     @GetMapping("pets/filter")

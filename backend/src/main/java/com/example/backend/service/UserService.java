@@ -37,5 +37,25 @@ public class UserService {
 
         return userResponseDTO;
     }
+    public UserResponseDTO getUser(int id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+        UserResponseDTO userResponseDTO = UserResponseDTO.builder()
+                .userId(user.getUserId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .role(user.getRole())
+                .build();
+
+        if(user.getRole().equals(Role.STAFF)){
+            StaffMember staffMember = staffRepository.findByUserId(id).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+            userResponseDTO.setShelterId(staffMember.getShelterId());
+            userResponseDTO.setStaffRole(staffMember.getStaffRole());
+        }
+
+        return userResponseDTO;
+    }
 
 }

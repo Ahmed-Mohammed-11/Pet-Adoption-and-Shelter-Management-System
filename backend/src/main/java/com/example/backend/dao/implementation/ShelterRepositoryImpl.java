@@ -57,6 +57,17 @@ public class ShelterRepositoryImpl implements CrudRepository<Shelter, Integer> {
                 .findFirst();
     }
 
+    public Optional<Shelter> findByShelterMgrId(Integer shelterMgrId) {
+        String sql = """
+                SELECT * FROM shelter
+                WHERE shelter_mgr_id = ?
+                """;
+
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Shelter.class), shelterMgrId)
+                .stream()
+                .findFirst();
+    }
+
     public Optional<Shelter> findByName(String shelterName) {
         String sql = """
                 SELECT * FROM shelter

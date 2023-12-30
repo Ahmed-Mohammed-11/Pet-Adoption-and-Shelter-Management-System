@@ -2,7 +2,10 @@ class User {
     username!: string;
     email!: string;
     password!: string;
-    fullName?: string;
+    firstName?: string;
+    lastName?: string;
     phone?: string;
     role!: string;
+    shelterName?: string;
+    staffRole?: string;
 }

@@ -1,12 +1,16 @@
 package com.example.backend.service;
 
 import com.example.backend.dao.implementation.PetRepositoryImpl;
+import com.example.backend.dao.implementation.ShelterRepositoryImpl;
+import com.example.backend.dao.implementation.StaffRepositoryImpl;
 import com.example.backend.dao.implementation.UserRepositoryImpl;
 import com.example.backend.dto.Request.PetDTO;
 import com.example.backend.enums.Behaviour;
 import com.example.backend.exceptions.exception.PetNotFoundException;
 import com.example.backend.model.Pet;
+import com.example.backend.model.users.StaffMember;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,7 @@ import java.util.List;
 public class PetService {
 
     private PetRepositoryImpl petRepository;
+    private StaffRepositoryImpl staffRepository;
 
     private Pet petBuilder(PetDTO petDTO) {
         return Pet.builder()
@@ -33,9 +38,12 @@ public class PetService {
                 .build();
     }
 
-    public List<Pet> getPets(int shelterId, int pageNumber) {
-        return petRepository.getPetsByShelterId(shelterId, pageNumber);
+    public List<Pet> getPets(int userId, int pageNumber) {
+        StaffMember staffMember = staffRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Staff member not found"));
+
+        return petRepository.getPetsByShelterId(staffMember.getShelterId(), pageNumber);
     }
+
 
     public Object getPet(int petId) {
         Pet pet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException("Pet with id " + petId + " not found"));
@@ -54,7 +62,9 @@ public class PetService {
                 .build();
     }
 
-    public Integer createPet(PetDTO petDTO) {
+    public Integer createPet(PetDTO petDTO, int userId) {
+        StaffMember staffMember = staffRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("Staff member not found"));
+        petDTO.setShelterId(staffMember.getShelterId());
         Pet pet = petBuilder(petDTO);
         return petRepository.save(pet);
     }

@@ -11,6 +11,7 @@ import com.example.backend.service.StaffService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class StaffController {
     private final StaffService staffService;
 
     @PostMapping(CREATE_PET)
-    public ResponseEntity<String> createPet(@RequestBody PetDTO petDTO) {
-        String petId = petService.createPet(petDTO).toString();
+    public ResponseEntity<String> createPet(@RequestBody PetDTO petDTO, @AuthenticationPrincipal int userId) {
+        String petId = petService.createPet(petDTO, userId).toString();
         return ResponseEntity.status(HttpStatus.CREATED).body(petId);
     }
 
@@ -43,8 +44,8 @@ public class StaffController {
     }
 
     @GetMapping("pets")
-    public ResponseEntity<Object> getPets(@RequestParam int shelterId, @RequestParam int pageNumber) {
-        return ResponseEntity.status(HttpStatus.OK).body(petService.getPets(shelterId, pageNumber));
+    public ResponseEntity<Object> getPets(@AuthenticationPrincipal int userId, @RequestParam int pageNumber) {
+        return ResponseEntity.status(HttpStatus.OK).body(petService.getPets(userId, pageNumber));
     }
 
     @GetMapping("pets/filter")
