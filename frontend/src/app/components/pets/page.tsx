@@ -1,7 +1,24 @@
 'use client';
 import styles from './page.module.css'
-import {Box, Stack, Button, Fab, Fade, FormControlLabel, FormLabel, Grid, Modal, Paper, Radio, RadioGroup, TextField, Typography, Autocomplete} from "@mui/material";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {
+    Box,
+    Stack,
+    Button,
+    Fab,
+    Fade,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    Modal,
+    Paper,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography,
+    Autocomplete,
+    Checkbox
+} from "@mui/material";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import SideBar from "@/app/components/side-bar/side-bar";
 import PetCard from "../pet-card/pet-card";
 import AddIcon from '@mui/icons-material/Add';
@@ -14,6 +31,7 @@ import {
 import getRequestController from "@/app/services/getRequestController";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import postRequestController from "@/app/services/postRequestController";
+import PetFilter from "@/app/components/filter/page";
 
 let options = new Map<string, number>([
     ["Playful", 0],
@@ -39,13 +57,36 @@ function Pets(props: Props) {
 
     const [modal, setModal] = useState(false); 
     const [pets, setPets] = useState<PetDTO[]>([]);
+    const [filterCriteria, setFilterCriteria] = useState({ age: '', breed: '', species: '', houseTrained: ''});
+
+    const buildUrl = () => {
+        let url = "/" + props.userType + "/" + "pets/filter?1=1";
+        if (filterCriteria.age !== '') url += "&age=" + filterCriteria.age;
+        if (filterCriteria.breed !== '') url += "&breed=" + filterCriteria.breed;
+        if (filterCriteria.species !== '') url += "&species=" + filterCriteria.species;
+        if (filterCriteria.houseTrained !== null) url += "&houseTrained=" + filterCriteria.houseTrained;
+        url += "&pageNumber=1";
+        return url;
+    }
+
+    const filterPets = async () => {
+        let url = buildUrl();
+        console.log(url);
+        let response = await getRequestController.sendGetRequest(url);
+        let jsonResponse = await response.json();
+        setPets(jsonResponse);
+    }
+
     const addPet = (pet : PetDTO) => {
         pets.push(pet);
     }
 
     useEffect(() => {
+        //make fetch on filter also
         fetchResponse();
     }, []);
+
+
 
     const fetchResponse = async () => {
         // the two controllers as one with post request
@@ -56,11 +97,9 @@ function Pets(props: Props) {
             url = "/adopter/pets?pageNumber=1"
         }
         let response = await getRequestController.sendGetRequest(url);
-
         // toJSON util to convert ReadableStream to JSON
         let jsonResponse = await toJSON(response.body!);
         let responseStat = response.status;
-        console.log(jsonResponse)
         setPets(jsonResponse)
     }
 
@@ -79,6 +118,46 @@ function Pets(props: Props) {
                     <Typography variant="h3" gutterBottom color="primary">
                         Pets List
                     </Typography>
+                    <Box className={styles.container}>
+                        <TextField
+                            className={styles.input}
+                            label="Age"
+                            size={"small"}
+                            type="number"
+                            value={filterCriteria.age}
+                            onChange={(e) => setFilterCriteria({ ...filterCriteria, age: e.target.value })}
+                            InputProps={{endAdornment: "Years"}}
+                        />
+
+                        <span></span>
+                        <TextField
+                            className={styles.input}
+                            label="Breed"
+                            size={"small"}
+                            type="text"
+                            value={filterCriteria.breed}
+                            onChange={(e) => setFilterCriteria({ ...filterCriteria, breed: e.target.value })}
+                        />
+                        <span></span>
+                        <TextField
+                            className={styles.input}
+                            size={"small"}
+                            label="Species"
+                            type="text"
+                            value={filterCriteria.species}
+                            onChange={(e) => setFilterCriteria({ ...filterCriteria, species: e.target.value })}
+                        />
+                        <span></span>
+                        <FormControlLabel
+                            control={<Checkbox />}
+                            label="House Training"
+                            value={filterCriteria.houseTrained}
+                            //if checked, set value to true, else set to false
+                            onChange={(e) => setFilterCriteria({ ...filterCriteria, houseTrained: e.target.checked })}
+
+                        />
+                        <Button onClick={filterPets}>Filter</Button>
+                    </Box>
                     <Grid
                         container
                         direction="row"

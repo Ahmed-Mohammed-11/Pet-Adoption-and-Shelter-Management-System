@@ -131,6 +131,7 @@ function Page() {
                     placeholder='Pick a username'
                     inputRef={usernameRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     error={!isUserValid.username}
                     helperText={(isUserValid.username) ? "" : errors.username}
@@ -144,6 +145,7 @@ function Page() {
                     placeholder='Email'
                     inputRef={emailRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     error={!isUserValid.email}
                     helperText={(isUserValid.email) ? "" : errors.email}
@@ -157,6 +159,7 @@ function Page() {
                     placeholder='pick a password'
                     inputRef={passwordRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     // error={!isUserValid.password}
                     helperText={(isUserValid.password) ? "Make it strong" : errors.password}
@@ -169,6 +172,7 @@ function Page() {
                     placeholder='phone number'
                     inputRef={phoneRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
@@ -181,6 +185,7 @@ function Page() {
                     placeholder='first name'
                     inputRef={firstNameRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
@@ -193,6 +198,7 @@ function Page() {
                     placeholder='Last name'
                     inputRef={lastNameRef}
                     required
+                    size={"small"}
                     variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
@@ -206,7 +212,8 @@ function Page() {
                         placeholder='shelter name'
                         inputRef={shelterNameRef}
                         required
-                        variant="filled"
+                        size={"small"}
+                        variant="outlined"
                         // error={!isUserValid.password}
                         // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                         InputProps={{style: {background: "#FFF"}}}
@@ -220,7 +227,8 @@ function Page() {
                         placeholder='Staff Role'
                         inputRef={staffRoleRef}
                         required
-                        variant="filled"
+                        size={"small"}
+                        variant="outlined"
                         // error={!isUserValid.password}
                         // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                         InputProps={{style: {background: "#FFF"}}}
@@ -250,7 +258,7 @@ function Page() {
 
                 <Box>
                     OR
-                    <span><br/><br/></span>
+                    <span><br/></span>
                 </Box>
 
                 <Box>

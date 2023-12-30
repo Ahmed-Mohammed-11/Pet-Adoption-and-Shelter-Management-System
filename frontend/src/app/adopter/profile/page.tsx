@@ -38,8 +38,6 @@ function Page() {
         fetchResponse();
         setFirstRender(false);
 
-        // console.log("responseee " + userDetail.firstName)
-        // console.log("omar ba2a: " + userDetail.firstName)
     }, [firstRender])
 
     useEffect(() => {
