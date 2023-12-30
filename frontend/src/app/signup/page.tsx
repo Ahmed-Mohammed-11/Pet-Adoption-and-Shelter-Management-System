@@ -23,6 +23,8 @@ function Page() {
     const phoneRef = useRef<HTMLInputElement>(null);
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
+    const shelterNameRef = useRef<HTMLInputElement>(null);
+    const staffRoleRef = useRef<HTMLInputElement>(null);
 
     const [isUserValid, setIsUserValid] = useState({
         username: true,
@@ -48,8 +50,11 @@ function Page() {
             email: emailRef.current!.value,
             password: passwordRef.current!.value,
             role: selectedRole,
-            phone: "",
-            fullName: "",
+            phone: phoneRef.current!.value,
+            firstName: firstNameRef.current!.value,
+            lastName: lastNameRef.current!.value,
+            shelterName: shelterNameRef.current!.value,
+            staffRole: staffRoleRef.current!.value
         }
 
         // validate user credentials on client side
@@ -73,9 +78,11 @@ function Page() {
             email: user.email,
             password: user.password,
             role: user.role,
-            phone: "0155555",
-            firstName: "Omar",
-            lastName: "Tammam"
+            phone: user.phone,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            shelterName: user.shelterName,
+            staffRole: user.staffRole
         }
         //not sure about this await
         await fetchResponse(userDTO);
@@ -192,7 +199,34 @@ function Page() {
                     InputProps={{style: {background: "#FFF"}}}
                 >
                 </TextField>
-
+                {selectedRole=="staff" &&
+                    <TextField
+                        className={styles.textArea}
+                        label='Shelter Name'
+                        placeholder='shelter name'
+                        inputRef={shelterNameRef}
+                        required
+                        variant="filled"
+                        // error={!isUserValid.password}
+                        // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
+                        InputProps={{style: {background: "#FFF"}}}
+                    >
+                    </TextField>
+                }
+                {selectedRole=="staff" &&
+                    <TextField
+                        className={styles.textArea}
+                        label='Staff Role'
+                        placeholder='Staff Role'
+                        inputRef={staffRoleRef}
+                        required
+                        variant="filled"
+                        // error={!isUserValid.password}
+                        // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
+                        InputProps={{style: {background: "#FFF"}}}
+                    >
+                    </TextField>
+                }
 
                 <RadioGroup
                     aria-label="role"

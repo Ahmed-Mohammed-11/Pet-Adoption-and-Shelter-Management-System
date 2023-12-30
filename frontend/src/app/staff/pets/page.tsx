@@ -58,7 +58,7 @@ function Page() {
 
     return (
         <Pets
-            pets={fakePets}
+            // pets={fakePets}
             userType={"staff"}
             itemList={[{text: "profile"}, {text: "pets"}, {text: "adoption records"}]}
         />
