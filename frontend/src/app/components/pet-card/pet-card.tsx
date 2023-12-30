@@ -7,6 +7,11 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import { Dispatch, SetStateAction, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { SaveOutlined } from '@mui/icons-material';
+import {GET_USER_BACKEND_ENDPOINT} from "@/app/constants/apiConstants";
+import getRequestController from "@/app/services/getRequestController";
+import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
+import postRequestController from "@/app/services/postRequestController";
+import putRequest from "@/app/services/PutRequest";
 
 const DEFAULT_IMAGE = "https://img.freepik.com/free-photo/cute-domestic-kitten-sits-window-staring-outside-generative-ai_188544-12519.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1702857600&semt=ais"
 
@@ -113,7 +118,24 @@ function EditPet(props : ModalProps) {
 
     const addPet = () => {
         console.log(formData);
+        fetchResponse()
         props.handleClose(false);
+    }
+
+
+    const fetchResponse = async () => {
+
+        // the two controllers as one with post request
+        let url = "/staff/update/" + props.pet.petId
+        let response = await putRequest.sendPutRequest(formData, url)
+
+        // toJSON util to convert ReadableStream to JSON
+        let jsonResponse = await toJSON(response.body!);
+        let responseStat = response.status;
+
+        if(responseStat == 200)
+            console.log("Pet updated successfully")
+        // setFormData(jsonResponse)
     }
 
     return (
