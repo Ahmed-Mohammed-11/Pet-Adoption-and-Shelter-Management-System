@@ -6,6 +6,7 @@ export const SIGN_IN_BACKEND_ENDPOINT = '/auth/login';
 export const GET_USER_BACKEND_ENDPOINT = '/user';
 export const GET_SHELTERS_BACKEND_ENDPOINT = '/shelters';
 export const GET_PETS_BACKEND_ENDPOINT = '/pets';
+export const ADD_PETS_BACKEND_ENDPOINT = '/pets/create';
 export const SIGN_UP_ROUTE = '/signup';
 export const SIGN_IN_ROUTE = '/login';
 export const MANAGER_PROFILE_ROUTE = 'manager/profile';

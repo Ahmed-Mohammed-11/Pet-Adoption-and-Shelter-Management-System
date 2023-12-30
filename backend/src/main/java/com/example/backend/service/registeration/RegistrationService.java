@@ -45,7 +45,7 @@ public class RegistrationService {
 
         int shelterId = shelterRepository
                 .findByName(staffDTO.getShelterName())
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"))
+                .orElseThrow(() -> new UsernameNotFoundException("shelter name not found"))
                 .getShelterId();
 
         StaffMember staff = StaffMember.builder()

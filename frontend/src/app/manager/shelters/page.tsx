@@ -72,7 +72,7 @@ function Page() {
         <Shelters
             shelters={fakeShelters}
             userType={"manager"}
-            itemList={[{text: "profile"}, {text: "shelters"}, {text: "pets"}]}
+            itemList={[{text: "profile"}, {text: "shelters"}]}
         />
     );
 }

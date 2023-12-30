@@ -1,11 +1,19 @@
 'use client';
 import styles from './page.module.css'
 import {Box, Stack, Button, Fab, Fade, FormControlLabel, FormLabel, Grid, Modal, Paper, Radio, RadioGroup, TextField, Typography, Autocomplete} from "@mui/material";
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import SideBar from "@/app/components/side-bar/side-bar";
 import PetCard from "../pet-card/pet-card";
 import AddIcon from '@mui/icons-material/Add';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {
+    ADD_PETS_BACKEND_ENDPOINT,
+    GET_PETS_BACKEND_ENDPOINT,
+    GET_USER_BACKEND_ENDPOINT
+} from "@/app/constants/apiConstants";
+import getRequestController from "@/app/services/getRequestController";
+import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
+import postRequestController from "@/app/services/postRequestController";
 
 let options = new Map<string, number>([
     ["Playful", 0],
@@ -17,7 +25,7 @@ let options = new Map<string, number>([
 
 interface Props {
     itemList: any,
-    pets: PetDTO[],
+    // pets: PetDTO[],
     userType: string,
 }
 
@@ -30,15 +38,40 @@ interface ModalProps {
 function Pets(props: Props) {
 
     const [modal, setModal] = useState(false); 
-
+    const [pets, setPets] = useState<PetDTO[]>([]);
     const addPet = (pet : PetDTO) => {
-        props.pets.push(pet);
+        pets.push(pet);
     }
+
+    useEffect(() => {
+        fetchResponse();
+    }, []);
+
+    const fetchResponse = async () => {
+        // the two controllers as one with post request
+        let url = GET_PETS_BACKEND_ENDPOINT
+        if(props.userType == "staff") {
+            url = "/staff/pets?pageNumber=1"
+        } else {
+            url = "/adopter/pets?pageNumber=1"
+        }
+        let response = await getRequestController.sendGetRequest(url);
+
+        // toJSON util to convert ReadableStream to JSON
+        let jsonResponse = await toJSON(response.body!);
+        let responseStat = response.status;
+        console.log(jsonResponse)
+        setPets(jsonResponse)
+    }
+
 
     return (
         // SideBar
         <>
-            <CreatePet open={modal} handleClose={setModal} onAddPet={addPet} />
+            {props.userType=="staff" &&
+                <CreatePet open={modal} handleClose={setModal} onAddPet={addPet} />
+            }
+
             <Box display="flex" alignItems="stretch" justifyContent="center" height="fit">
                 <SideBar width={"20%"} userType={props.userType} itemList={props.itemList}/>
 
@@ -56,7 +89,7 @@ function Pets(props: Props) {
                         margin={'2vh auto'}
                         padding={'2vh 2vw'}
                     >
-                        {props.pets.map((pet: PetDTO) => (
+                        {pets.map((pet: PetDTO) => (
                             <PetCard pet={pet} userType={props.userType}/>
                         ))}
                     </Grid>
@@ -101,8 +134,28 @@ function CreatePet(props : ModalProps) {
 
     const addPet = () => {
         console.log(formData);
+        fetchResponse()
         props.handleClose(false);
         props.onAddPet(formData);
+    }
+
+    useEffect(() => {
+        fetchResponse();
+    }, []);
+
+    const fetchResponse = async () => {
+
+        // the two controllers as one with post request
+        let url = ADD_PETS_BACKEND_ENDPOINT
+        let response = await postRequestController.sendPostRequest(formData, url);
+
+        // toJSON util to convert ReadableStream to JSON
+        let jsonResponse = await toJSON(response.body!);
+        let responseStat = response.status;
+        console.log(jsonResponse)
+        if(responseStat === 200) {
+            console.log("Pet added successfully")
+        }
     }
 
     return (

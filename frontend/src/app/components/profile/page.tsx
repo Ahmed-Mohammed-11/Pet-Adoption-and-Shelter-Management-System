@@ -36,6 +36,8 @@ function Profile(props: Props) {
         phone: props.userDetail.phone,
         password: props.userDetail.password,
         role: props.userDetail.role,
+        shelterName: props.userDetail.shelterName,
+        staffRole: props.userDetail.staffRole
     });
 
 
@@ -48,6 +50,8 @@ function Profile(props: Props) {
         phone: false,
         password: false,
         role: false,
+        shelterName: false,
+        staffRole: false
     });
 
     // Function to handle saving edited data
@@ -60,6 +64,8 @@ function Profile(props: Props) {
             phone: false,
             password: false,
             role: false,
+            shelterName: false,
+            staffRole: false
         })
 
         // Step 3: Validate form data
@@ -79,11 +85,13 @@ function Profile(props: Props) {
             phone: props.userDetail.phone,
             password: props.userDetail.password,
             role: props.userDetail.role,
+            shelterName: props.userDetail.shelterName,
+            staffRole: props.userDetail.staffRole
         })
     }, [props.userDetail]);
 
     useEffect(() => {
-        console.log("from data use effect " + formData.firstName);
+        console.log("from data use effect " + formData.shelterName);
     }, [formData]);
 
 
@@ -200,6 +208,30 @@ function Profile(props: Props) {
                         ),
                     }}
                 />
+
+                {props.userType=="staff" &&
+                    <TextField
+                        placeholder="Shelter Name"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        value={formData.shelterName}
+                        disabled={true}
+                    />
+                }
+
+                {props.userType=="staff" &&
+                    <TextField
+                        placeholder="Staff role"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        disabled={true}
+                        value={formData.staffRole}
+                    />
+                }
+
+
                 <TextField
                     label="Role"
                     variant="outlined"
@@ -208,6 +240,7 @@ function Profile(props: Props) {
                     disabled={true}
                     value={formData.role}
                 />
+
 
                 <Button
                     type="submit"

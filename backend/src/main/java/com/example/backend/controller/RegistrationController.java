@@ -27,6 +27,7 @@ public class RegistrationController {
 
     @PostMapping(Endpoints.REGISTER_STAFF)
     public ResponseEntity<String> registerStaff(@RequestBody @Valid StaffDTO staffDTO){
+        System.out.println("Registering staff");
         registrationService.registerStaff(staffDTO);
         return ResponseEntity.ok("User registered successfully");
     }
