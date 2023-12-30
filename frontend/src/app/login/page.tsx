@@ -5,7 +5,12 @@ import {Box} from "@mui/system";
 import {useRef, useState} from "react";
 import clientValidateForm from "@/app/security/userValidation/clientFormValidation";
 import loginController from "@/app/services/loginController";
-import {SIGN_IN_BACKEND_ENDPOINT, SIGN_UP_ROUTE} from "@/app/constants/apiConstants";
+import {
+    ADOPTER_PROFILE_ROUTE, MANAGER_PROFILE_ROUTE,
+    SIGN_IN_BACKEND_ENDPOINT,
+    SIGN_UP_ROUTE,
+    STAFF_PROFILE_ROUTE
+} from "@/app/constants/apiConstants";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import {useRouter} from "next/navigation";
 import loginServerFormValidationMapper from "@/app/security/userValidation/loginServerFormValidationMapper";
@@ -60,9 +65,19 @@ function Page() {
         //if response status is 200, redirect to home page
         // if response status is not 200, map response from server to display appropriate error messages
         // and if 200 get auth token and store it in local storage
-        let {isUserValid, errors} = loginServerFormValidationMapper(responseStat, jsonResponse, jsonResponse)
+        let {isUserValid, errors} = loginServerFormValidationMapper(responseStat, jsonResponse, jsonResponse.token)
         setIsUserValid(isUserValid);
         setErrors(errors);
+
+        if(responseStat == 200) {
+            if(jsonResponse.role == "ADOPTER") {
+                router.push(ADOPTER_PROFILE_ROUTE)
+            }else if (jsonResponse.role == "STAFF") {
+                router.push(STAFF_PROFILE_ROUTE)
+            }else{
+                router.push(MANAGER_PROFILE_ROUTE)
+            }
+        }
 
     }
 

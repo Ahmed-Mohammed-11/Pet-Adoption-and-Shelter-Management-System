@@ -5,19 +5,25 @@ import {Box} from "@mui/system";
 import {useRef, useState} from "react";
 import signupController from "@/app/services/signupController";
 import {
+    ADOPTER_PROFILE_ROUTE, MANAGER_PROFILE_ROUTE,
     SIGN_IN_ROUTE,
     SIGN_UP_ADOPTER_BACKEND_ENDPOINT,
-    SIGN_UP_MANAGER_BACKEND_ENDPOINT, SIGN_UP_STAFF_BACKEND_ENDPOINT,
+    SIGN_UP_MANAGER_BACKEND_ENDPOINT, SIGN_UP_STAFF_BACKEND_ENDPOINT, STAFF_PROFILE_ROUTE,
 } from "@/app/constants/apiConstants";
 import clientValidateForm from "@/app/security/userValidation/clientFormValidation";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import {useRouter} from "next/navigation";
 import {setReferenceManifestsSingleton} from "next/dist/server/app-render/action-encryption-utils";
+import signupServerFormValidationMapper from "@/app/security/userValidation/signupServerFormValidationMapper";
 
 function Page() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+    const firstNameRef = useRef<HTMLInputElement>(null);
+    const lastNameRef = useRef<HTMLInputElement>(null);
+
     const [isUserValid, setIsUserValid] = useState({
         username: true,
         email: true,
@@ -99,10 +105,13 @@ function Page() {
         //if response status is not 200, map response from server to display appropriate error messages
         //and if 200 get auth token and store it in local storage
 
-        // let {isUserValid, errors} = signupServerFormValidationMapper(responseStat, jsonResponse, userDTO)
-        // setIsUserValid(isUserValid);
+        let {isUserValid, errors} = signupServerFormValidationMapper(responseStat, jsonResponse, jsonResponse)
+        setIsUserValid(isUserValid);
 
-        // setErrors(errors);
+        setErrors(errors);
+        if(responseStat == 200) {
+            router.push(SIGN_IN_ROUTE)
+        }
     }
 
 
@@ -142,7 +151,7 @@ function Page() {
                     inputRef={passwordRef}
                     required
                     variant="filled"
-                    error={!isUserValid.password}
+                    // error={!isUserValid.password}
                     helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
                 >
@@ -151,10 +160,10 @@ function Page() {
                     className={styles.textArea}
                     label='phone number'
                     placeholder='phone number'
-                    inputRef={passwordRef}
+                    inputRef={phoneRef}
                     required
                     variant="filled"
-                    error={!isUserValid.password}
+                    // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
                 >
@@ -163,10 +172,10 @@ function Page() {
                     className={styles.textArea}
                     label='First Name'
                     placeholder='first name'
-                    inputRef={passwordRef}
+                    inputRef={firstNameRef}
                     required
                     variant="filled"
-                    error={!isUserValid.password}
+                    // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
                 >
@@ -175,10 +184,10 @@ function Page() {
                     className={styles.textArea}
                     label='Last Name'
                     placeholder='Last name'
-                    inputRef={passwordRef}
+                    inputRef={lastNameRef}
                     required
                     variant="filled"
-                    error={!isUserValid.password}
+                    // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
                 >

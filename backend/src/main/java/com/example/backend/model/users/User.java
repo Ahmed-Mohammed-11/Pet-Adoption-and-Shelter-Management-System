@@ -26,7 +26,6 @@ public class User implements UserDetails {
     protected String firstName;
     protected String lastName;
     protected Role role;
-    protected boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `pet_adoption`.`shelter` (
     `phone` VARCHAR(45) NULL,
     `email` VARCHAR(45) NULL,
     `shelter_mgr_id` INT NOT NULL,
-    PRIMARY KEY (`shelter_id`, `shelter_mgr_id`),
+    PRIMARY KEY (`shelter_id`),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
     UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
     UNIQUE INDEX `shelter_id_UNIQUE` (`shelter_id` ASC) VISIBLE,

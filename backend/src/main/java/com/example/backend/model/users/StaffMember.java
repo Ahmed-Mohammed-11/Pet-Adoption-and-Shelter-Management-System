@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StaffMember extends User {
-    private String shelterName;
+    private int shelterId;
     private String staffRole;
 }
 
