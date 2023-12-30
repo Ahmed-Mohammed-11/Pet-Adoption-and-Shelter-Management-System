@@ -27,4 +27,30 @@
     padding: 0.5rem;
 }
 
+.link {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+    margin-bottom: 3%;
+}
 
+.link:hover {
+    text-decoration: none !important;
+    outline: none !important;
+    font-weight: bold !important;
+}
+
+.modalStyle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5%;
+    padding: 4vh 4vw;
+    z-index: 10;
+}
