@@ -124,7 +124,7 @@ function Page() {
                     placeholder='Pick a username'
                     inputRef={usernameRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     error={!isUserValid.username}
                     helperText={(isUserValid.username) ? "" : errors.username}
                     InputProps={{style: {background: "#FFF"}}}
@@ -137,7 +137,7 @@ function Page() {
                     placeholder='Email'
                     inputRef={emailRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     error={!isUserValid.email}
                     helperText={(isUserValid.email) ? "" : errors.email}
                     InputProps={{style: {background: "#FFF"}}}
@@ -150,7 +150,7 @@ function Page() {
                     placeholder='pick a password'
                     inputRef={passwordRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     // error={!isUserValid.password}
                     helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
@@ -162,7 +162,7 @@ function Page() {
                     placeholder='phone number'
                     inputRef={phoneRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
@@ -174,7 +174,7 @@ function Page() {
                     placeholder='first name'
                     inputRef={firstNameRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}
@@ -186,7 +186,7 @@ function Page() {
                     placeholder='Last name'
                     inputRef={lastNameRef}
                     required
-                    variant="filled"
+                    variant="outlined"
                     // error={!isUserValid.password}
                     // helperText={(isUserValid.password) ? "Make it strong" : errors.password}
                     InputProps={{style: {background: "#FFF"}}}

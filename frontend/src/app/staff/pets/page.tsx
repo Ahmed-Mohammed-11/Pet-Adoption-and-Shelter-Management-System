@@ -2,8 +2,9 @@
 import {GET_USER_BACKEND_ENDPOINT, SIGN_IN_BACKEND_ENDPOINT} from "@/app/constants/apiConstants";
 import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import getRequestController from "@/app/services/getRequestController";
-import {useState} from "react";
+import React, {useState} from "react";
 import Pets from "@/app/components/pets/page";
+import PetFilter from "@/app/components/filter/page";
 
 function Page() {
 
@@ -57,11 +58,14 @@ function Page() {
 
 
     return (
-        <Pets
-            pets={fakePets}
-            userType={"staff"}
-            itemList={[{text: "profile"}, {text: "pets"}, {text: "adoptionRecords"}]}
-        />
+        <>
+            <PetFilter/>
+            <Pets
+                pets={fakePets}
+                userType={"staff"}
+                itemList={[{text: "profile"}, {text: "pets"}, {text: "adoption records"}]}
+            />
+        </>
     );
 }
 

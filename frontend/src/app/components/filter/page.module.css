@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    border-radius: 30px;
+    width: 50%;
+    height: 90%;
+    top: 5%;
+    left: 40%;
+    transform: translate(90%, 0%);
+    margin: 1%;
+}
+
+.container span {
+    margin: 1%;
+}

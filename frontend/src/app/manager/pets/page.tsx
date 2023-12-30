@@ -4,6 +4,7 @@ import toJSON from "@/app/utils/readableStreamResponseBodytoJSON";
 import getRequestController from "@/app/services/getRequestController";
 import {useState} from "react";
 import Pets from "@/app/components/pets/page";
+import PetFilter from "@/app/components/filter/page";
 
 function Page() {
 
@@ -40,6 +41,12 @@ function Page() {
             breed: "Manga",
             age: 4,
         },
+        {
+            name: "Pet 6",
+            species: "Dog",
+            breed: "Golden Retreiver",
+            age: 2,
+        }
     ]
 
     const fetchResponse = async () => {
@@ -57,11 +64,15 @@ function Page() {
 
 
     return (
-        <Pets
-            pets={fakePets}
-            userType={"manager"}
-            itemList={[{text: "profile"}, {text: "shelters"}, {text: "pets"}]}
-        />
+        <>
+            <PetFilter />
+            <Pets
+                pets={fakePets}
+                userType={"manager"}
+                itemList={[{text: "profile"}, {text: "shelters"}, {text: "pets"}]}
+            />
+        </>
+
     );
 }
 
