@@ -106,6 +106,7 @@ function CreatePet(props : ModalProps) {
 
     const [gender, setGender] = useState('male');
     const [neutered, setNeutered] = useState(false);
+    const [vaccinated, setVaccinated] = useState(false);
     const [training, setTraining] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
     const [imageFile, setImageFile] = useState('');
@@ -122,7 +123,8 @@ function CreatePet(props : ModalProps) {
         houseTraining: false,
         behaviour: -1,
         shelterId: -1,
-        neutering: false,
+        isFertilised: false,
+        isVaccinated: false,
     });
 
     const chooseImage = (e : any) => {
@@ -146,7 +148,7 @@ function CreatePet(props : ModalProps) {
     const fetchResponse = async () => {
 
         // the two controllers as one with post request
-        let url = ADD_PETS_BACKEND_ENDPOINT
+        let url = "/staff/create"
         let response = await postRequestController.sendPostRequest(formData, url);
 
         // toJSON util to convert ReadableStream to JSON
@@ -237,6 +239,20 @@ function CreatePet(props : ModalProps) {
                             <FormControlLabel value={true} control={<Radio />} label="Yes" />
                             <FormControlLabel value={false} control={<Radio />} label="No" />
                         </RadioGroup>
+                        <FormLabel>vaccinated?</FormLabel>
+                        <RadioGroup
+                            row
+                            value={vaccinated}
+                            onChange={(e, newValue) => {
+                                setVaccinated(newValue === 'true')
+                                setFormData({...formData, vaccinated: newValue === 'true'})
+                            }}
+                        >
+                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                            <FormControlLabel value={false} control={<Radio />} label="No" />
+                        </RadioGroup>
+
+
                         <Autocomplete
                             disablePortal
                             options={Array.from(options.keys())}
