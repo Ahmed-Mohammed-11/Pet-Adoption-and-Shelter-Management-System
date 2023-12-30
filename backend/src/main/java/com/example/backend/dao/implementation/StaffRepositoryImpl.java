@@ -43,11 +43,11 @@ public class StaffRepositoryImpl extends UserRepositoryImpl {
                 (user_id, shelter_id, staff_role)
                 SELECT ?, shelter_id, ?
                 FROM pet_adoption.shelter
-                WHERE name = ?
+                WHERE shelter_id = ?
                 """;
 
 
-        jdbcTemplate.update(sql, user_id, staff.getStaffRole(), staff.getShelterName());
+        jdbcTemplate.update(sql, user_id, staff.getStaffRole(), staff.getShelterId());
 
         return user_id;
     }
