@@ -1,6 +1,5 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.Response.AdoptionDTO;
 import com.example.backend.dto.Response.NotificationDTO;
 import com.example.backend.enums.Behaviour;
 import com.example.backend.model.AdoptionRecord;
@@ -10,10 +9,15 @@ import com.example.backend.service.PetService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
@@ -23,24 +27,25 @@ public class AdopterController {
     private final PetService petService;
 
     @PostMapping("adopt")
-    public ResponseEntity<String> adopt(@RequestParam int petId) {
-        return this.adopterService.adopt(petId);
+    public ResponseEntity<String> adopt(@AuthenticationPrincipal int userId , @RequestParam int petId) {
+        return this.adopterService.adopt(userId, petId);
+
     }
 
     @PostMapping("cancelAdoption")
-    public ResponseEntity<String> cancelAdoption(@RequestParam int petId) {
-        return this.adopterService.cancelAdoption(petId);
+    public ResponseEntity<String> cancelAdoption(@AuthenticationPrincipal int userId ,@RequestParam int petId) {
+        return this.adopterService.cancelAdoption(userId, petId);
     }
 
     @GetMapping("getNotifications")
-    public ResponseEntity<List<NotificationDTO>> getNotifications(@RequestParam int pageNumber){
-        List<NotificationDTO> notifications = adopterService.getNotifications(pageNumber);
+    public ResponseEntity<List<NotificationDTO>> getNotifications(@AuthenticationPrincipal int userId ,@RequestParam int pageNumber){
+        List<NotificationDTO> notifications = adopterService.getNotifications(userId, pageNumber);
         return ResponseEntity.ok(notifications);
     }
 
     @GetMapping("getAdoptionStatus")
-    public ResponseEntity<AdoptionRecord> getAdoptionStatus(@RequestParam int petId){
-        return adopterService.getAdoptionStatus(petId);
+    public ResponseEntity<AdoptionRecord> getAdoptionStatus(@AuthenticationPrincipal int userId ,@RequestParam int petId){
+        return adopterService.getAdoptionStatus(userId, petId);
     }
     @GetMapping("pets")
     public ResponseEntity<Object> getPets(@RequestParam int shelterId, @RequestParam int pageNumber) {
@@ -67,6 +72,4 @@ public class AdopterController {
     public ResponseEntity<Object> getPet(@PathVariable Integer petId) {
         return ResponseEntity.status(HttpStatus.OK).body(petService.getPet(petId));
     }
-
-
 }

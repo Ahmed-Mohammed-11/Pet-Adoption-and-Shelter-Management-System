@@ -9,4 +9,5 @@ interface PetDTO {
     behaviour?: Behavior;
     healthStatus?: HealthStatus;
     shelterId?: number;
+    images?: string[]
 }

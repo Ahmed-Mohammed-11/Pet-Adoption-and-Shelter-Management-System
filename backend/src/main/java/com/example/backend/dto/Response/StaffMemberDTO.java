@@ -1,16 +1,15 @@
 package com.example.backend.dto.Response;
 
 import com.example.backend.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
+public class StaffMemberDTO {
     protected int userId;
     protected String username;
     protected String email;
@@ -18,7 +17,5 @@ public class UserResponseDTO {
     protected String firstName;
     protected String lastName;
     protected Role role;
-    private int shelterId;
     private String staffRole;
-
 }

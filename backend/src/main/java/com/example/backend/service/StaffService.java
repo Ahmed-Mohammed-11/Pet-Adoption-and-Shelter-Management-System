@@ -8,7 +8,6 @@ import com.example.backend.enums.AdoptionStatus;
 import com.example.backend.exceptions.exception.AdoptionRecordNotFoundException;
 import com.example.backend.model.AdoptionRecord;
 import com.example.backend.model.adoptionRecord.RecordId;
-import com.example.backend.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,10 @@ public class StaffService {
     private final AdoptionRepository adoptionRepository;
     private final PetRepository petRepository;
 
+
     public ResponseEntity<String> changeAdoptionStatus(int adopterId,int petId, AdoptionStatus status) {
         AdoptionRecord adoptionRecord = adoptionRepository.findRecordById(new RecordId(adopterId,petId));
+
         if (adoptionRecord == null) {
             throw new AdoptionRecordNotFoundException("Adoption record with petId "+petId+" and adopterId " + adopterId + " not found");
         }

@@ -50,7 +50,7 @@ function Shelters(props: Props) {
                         padding={'2vh 2vw'}
                     >
                         {props.shelters.map((shelter: ShelterDTO) => (
-                            <ShelterCard shelter={shelter} />
+                            <ShelterCard shelter={shelter} userType={props.userType} />
                         ))}
                     </Grid>
                 </Paper>

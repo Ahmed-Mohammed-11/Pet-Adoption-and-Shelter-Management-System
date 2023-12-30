@@ -31,7 +31,7 @@ public class UserService {
 
         if(user.getRole().equals(Role.STAFF)){
             StaffMember staffMember = staffRepository.findByUserName(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
-            userResponseDTO.setShelterName(staffMember.getShelterName());
+            userResponseDTO.setShelterId(staffMember.getShelterId());
             userResponseDTO.setStaffRole(staffMember.getStaffRole());
         }
 
