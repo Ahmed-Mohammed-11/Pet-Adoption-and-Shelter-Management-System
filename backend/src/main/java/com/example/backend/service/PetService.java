@@ -33,8 +33,8 @@ public class PetService {
                 .build();
     }
 
-    public Object getPets() {
-        return petRepository.findAll();
+    public List<Pet> getPets(int shelterId, int pageNumber) {
+        return petRepository.getPetsByShelterId(shelterId, pageNumber);
     }
 
     public Object getPet(int petId) {
@@ -70,7 +70,13 @@ public class PetService {
         petRepository.deleteById(petId);
     }
 
-    public List<Pet> getPetWithFilters(String breed, String species, Integer age, String gender, Boolean isFertilised, Boolean isVaccinated, Boolean houseTraining, Behaviour behaviour) {
-        return petRepository.filterBy(breed, species, age, gender, isFertilised, isVaccinated, houseTraining, behaviour);
+    public List<Pet> getPetWithFilters(String breed, String species, Integer age, String gender, Boolean isFertilised, Boolean isVaccinated, Boolean houseTraining, Behaviour behaviour, Integer shelterId, Integer pageNumber) {
+        return petRepository.filterBy(breed, species, age, gender, isFertilised, isVaccinated, houseTraining, behaviour, shelterId, pageNumber);
+    }
+
+    public void isExistingPet(int petId) {
+        if(!petRepository.isPetExists(petId)) {
+            throw new PetNotFoundException("Pet with id " + petId + " not found");
+        }
     }
 }
